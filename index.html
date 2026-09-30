@@ -1,443 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLEAZURE.ONLINE — Sensual Tactile Technology</title>
-    <!-- Google Fonts: Syncopate & Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        obsidian: '#080608',
-                        crimson: '#e6004c',
-                        ruby: '#800028',
-                        rosegold: '#d4af37',
-                        glass: 'rgba(255, 255, 255, 0.03)'
-                    },
-                    fontFamily: {
-                        serif: ['Syncopate', 'sans-serif'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #080608;
-            color: #f3f3f3;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow-x: hidden;
-        }
-
-        .glass-panel {
-            background: rgba(18, 12, 16, 0.65);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(230, 0, 76, 0.15);
-        }
-
-        .glow-crimson {
-            box-shadow: 0 0 35px rgba(230, 0, 76, 0.35);
-        }
-
-        .glow-text {
-            text-shadow: 0 0 15px rgba(230, 0, 76, 0.6);
-        }
-
-        .ambient-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #080608;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #33111c;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #e6004c;
-        }
-
-        .product-card {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .product-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(230, 0, 76, 0.5);
-            box-shadow: 0 12px 40px rgba(230, 0, 76, 0.2);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLEAZURE.ONLINE</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      width: 100%;
+      box-sizing: border-box;
+      border-bottom: 1px solid #222;
+      background-color: #000;
+    }
+    .brand-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      color: #fff;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+    }
+    .cart-bag-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 4px;
+    }
+    .cart-count {
+      position: absolute;
+      top: -2px;
+      right: -6px;
+      background: #e50914;
+      color: #fff;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
 </head>
-<body class="selection:bg-crimson selection:text-white">
+<body>
 
-    <!-- Fluid Ambient Red Canvas -->
-    <canvas id="fluidCanvas" class="ambient-canvas"></canvas>
-
-    <!-- Top Navigation Header -->
-    <header class="fixed top-0 left-0 w-full z-40 px-6 lg:px-12 py-5 flex items-center justify-between glass-panel border-b border-white/10">
-        <div class="flex items-center space-x-8">
-            <a href="#" class="font-serif text-xl tracking-[0.25em] font-bold text-white flex items-center space-x-2">
-                <span class="w-3 h-3 rounded-full bg-crimson animate-pulse inline-block"></span>
-                <span>PLEAZURE<span class="text-crimson">.ONLINE</span></span>
-            </a>
-            <nav class="hidden md:flex space-x-8 text-xs tracking-widest text-neutral-400 font-medium uppercase">
-                <a href="#catalog" class="hover:text-crimson transition-colors">Collection</a>
-                <a href="#technology" class="hover:text-crimson transition-colors">Tactile Tech</a>
-                <a href="#discretion" class="hover:text-crimson transition-colors">Privacy Guarantee</a>
-            </nav>
-        </div>
-
-        <div class="flex items-center space-x-4">
-            <!-- Vibe Finder Quiz Button -->
-            <button onclick="toggleQuizModal(true)" class="hidden sm:flex items-center space-x-2 px-4 py-2 rounded-full border border-crimson/40 bg-crimson/10 text-xs font-semibold tracking-wider text-white hover:bg-crimson hover:border-crimson transition-all duration-300">
-                <svg class="w-4 h-4 text-crimson group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span>VIBE FINDER</span>
-            </button>
-
-            <!-- Cart Toggle Button -->
-            <button onclick="toggleCartDrawer(true)" class="relative p-2 text-neutral-300 hover:text-white transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                <span id="cartCount" class="absolute -top-1 -right-1 bg-crimson text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
-            </button>
-
-            <!-- Quick Exit Safety Panic Switch -->
-            <button onclick="quickExit()" title="Press Esc or Click to Panic Exit" class="px-3 py-2 bg-neutral-900 border border-neutral-700 hover:bg-red-950 hover:border-red-600 rounded-lg text-[10px] font-mono tracking-widest text-neutral-300 flex items-center space-x-1 transition-all">
-                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-                <span>QUICK EXIT [ESC]</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- Main Content Section -->
-    <main class="pt-32 pb-24 px-6 lg:px-12 max-w-7xl mx-auto space-y-32">
-
-        <!-- Hero Showcase -->
-        <section class="min-h-[75vh] flex flex-col justify-center items-start space-y-8 relative">
-            <div class="inline-flex items-center space-x-3 px-4 py-1.5 rounded-full glass-panel border-crimson/30 text-crimson text-xs font-semibold uppercase tracking-widest">
-                <span>Refined Sensory Engineering</span>
-            </div>
-            
-            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight max-w-4xl">
-                ELEVATED SENSORY <br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-crimson via-rose-500 to-rosegold glow-text">INTELLIGENCE.</span>
-            </h1>
-
-            <p class="text-neutral-400 max-w-xl text-base sm:text-lg font-light leading-relaxed">
-                An intimate collection designed for total anatomical resonance. Engineered with whispering decibel acoustics, liquid silicone contours, and continuous tactile motion waves.
-            </p>
-
-            <div class="flex flex-wrap gap-4 pt-4">
-                <a href="#catalog" class="px-8 py-4 bg-crimson hover:bg-rose-600 text-white font-semibold text-xs tracking-widest uppercase rounded-full glow-crimson transition-all duration-300">
-                    Explore Collection (30 Items)
-                </a>
-                <button onclick="togglePackagingModal(true)" class="px-8 py-4 glass-panel border border-white/20 hover:border-crimson text-white font-semibold text-xs tracking-widest uppercase rounded-full transition-all">
-                    Preview Discreet Packaging
-                </button>
-            </div>
-        </section>
-
-        <!-- Interactive Catalog Grid -->
-        <section id="catalog" class="space-y-12">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-6">
-                <div>
-                    <h2 class="font-serif text-2xl sm:text-3xl font-bold tracking-wider">CURATED CATALOG</h2>
-                    <p class="text-neutral-400 text-sm mt-1">Select a device to view tactile physics specs and acoustics.</p>
-                </div>
-                
-                <!-- Category Filter Buttons -->
-                <div class="flex flex-wrap gap-2">
-                    <button class="px-4 py-2 rounded-full bg-crimson text-white text-xs font-medium">All Devices</button>
-                    <button class="px-4 py-2 rounded-full glass-panel hover:border-crimson text-neutral-300 text-xs font-medium">Waves & Pulse</button>
-                    <button class="px-4 py-2 rounded-full glass-panel hover:border-crimson text-neutral-300 text-xs font-medium">Dual Synergy</button>
-                    <button class="px-4 py-2 rounded-full glass-panel hover:border-crimson text-neutral-300 text-xs font-medium">App Connected</button>
-                </div>
-            </div>
-
-            <!-- Product Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="productGrid">
-                <!-- Products dynamically rendered here -->
-            </div>
-        </section>
-
-        <!-- Privacy & Discretion Section -->
-        <section id="discretion" class="glass-panel p-8 sm:p-12 rounded-3xl space-y-8 relative overflow-hidden">
-            <div class="max-w-2xl space-y-4">
-                <div class="text-crimson text-xs font-semibold uppercase tracking-widest">Complete Privacy Guarantee</div>
-                <h3 class="font-serif text-2xl sm:text-4xl font-bold">100% DISCREET DELIVERIES.</h3>
-                <p class="text-neutral-400 text-sm sm:text-base leading-relaxed">
-                    We ensure total privacy from click to delivery. Orders arrive in plain unbranded matte shipping boxes with no mention of products or merchant details on bank records.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
-                <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                    <div class="text-crimson font-bold text-lg">Plain Outer Box</div>
-                    <p class="text-xs text-neutral-400">Zero brand logos, labels, or product hints anywhere on packaging.</p>
-                </div>
-                <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                    <div class="text-crimson font-bold text-lg">Discreet Billing</div>
-                    <p class="text-xs text-neutral-400">Appears safely on bank statements under neutral parent entity billing names.</p>
-                </div>
-                <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                    <div class="text-crimson font-bold text-lg">Encrypted Data</div>
-                    <p class="text-xs text-neutral-400">End-to-end checkout encryption with immediate record auto-deletion options.</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-white/10 bg-black/80 py-12 px-6 lg:px-12 text-center text-xs text-neutral-500 space-y-4">
-        <div class="font-serif text-lg text-white font-bold tracking-widest">PLEAZURE<span class="text-crimson">.ONLINE</span></div>
-        <p>Curated Sensory Devices for Body Wellness & Tactile Exploration.</p>
-        <p class="text-neutral-600">© 2026 PLEAZURE.ONLINE. All rights reserved.</p>
-    </footer>
-
-    <!-- Cart Drawer Modal -->
-    <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none hidden">
-        <div onclick="toggleCartDrawer(false)" class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto" id="cartOverlay"></div>
-        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-obsidian border-l border-white/10 p-6 flex flex-col justify-between translate-x-full transition-transform duration-300 pointer-events-auto" id="cartContent">
-            <div class="space-y-6">
-                <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                    <h3 class="font-serif text-lg font-bold tracking-wider">YOUR SELECTIONS</h3>
-                    <button onclick="toggleCartDrawer(false)" class="text-neutral-400 hover:text-white">✕</button>
-                </div>
-                <div id="cartItemsList" class="space-y-4 text-sm text-neutral-400">
-                    Your shopping bag is empty.
-                </div>
-            </div>
-            <div class="border-t border-white/10 pt-4 space-y-4">
-                <div class="flex justify-between font-bold text-white text-base">
-                    <span>Subtotal</span>
-                    <span id="cartSubtotal">$0.00</span>
-                </div>
-                <button class="w-full py-4 bg-crimson hover:bg-rose-600 text-white font-bold text-xs uppercase tracking-widest rounded-full transition-colors">
-                    Proceed to Discrete Checkout
-                </button>
-            </div>
-        </div>
+  <header class="site-header">
+    <a href="/" class="brand-logo">PLEAZURE.ONLINE</a>
+    <div class="nav-actions">
+      <button class="cart-bag-btn" aria-label="Shopping Bag">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="cart-count">0</span>
+      </button>
     </div>
+  </header>
 
-    <!-- Vibe Finder Quiz Modal -->
-    <div id="quizModal" class="fixed inset-0 z-50 flex items-center justify-center p-6 hidden">
-        <div onclick="toggleQuizModal(false)" class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
-        <div class="relative glass-panel w-full max-w-lg p-8 rounded-3xl space-y-6 border-crimson/30">
-            <div class="flex justify-between items-center">
-                <h3 class="font-serif text-xl font-bold tracking-wider text-white">VIBE FINDER QUIZ</h3>
-                <button onclick="toggleQuizModal(false)" class="text-neutral-400 hover:text-white">✕</button>
-            </div>
-            <div class="space-y-4">
-                <label class="text-xs uppercase text-neutral-400 font-semibold tracking-wider">Desired Tactile Intensity</label>
-                <input type="range" min="1" max="10" value="5" class="w-full accent-crimson">
-                <div class="flex justify-between text-xs text-neutral-500">
-                    <span>Gentle Whispers</span>
-                    <span>Deep Waves</span>
-                </div>
-            </div>
-            <button onclick="toggleQuizModal(false)" class="w-full py-3 bg-crimson text-white font-semibold rounded-full text-xs uppercase tracking-widest">Match Recommendations</button>
-        </div>
-    </div>
-
-    <!-- JavaScript Application Logic -->
-    <script>
-        // Sample Product Data (Placeholder items ready for real catalog)
-        const products = [
-            { id: 1, name: "VELVET WAVE I", category: "Waves & Pulse", price: 149, decibels: "28 dB", softRating: "9.8 / 10", image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80" },
-            { id: 2, name: "RUBY SYNERGY DUAL", category: "Dual Synergy", price: 189, decibels: "31 dB", softRating: "9.5 / 10", image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80" },
-            { id: 3, name: "CRIMSON FLOW APP", category: "App Connected", price: 210, decibels: "25 dB", softRating: "9.9 / 10", image: "https://images.unsplash.com/photo-1512290900676-26c2a4d0b5ae?auto=format&fit=crop&w=600&q=80" },
-            { id: 4, name: "OBSIDIAN SILK", category: "Waves & Pulse", price: 129, decibels: "29 dB", softRating: "9.6 / 10", image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" },
-            { id: 5, name: "AURA SYNERGY MINI", category: "Dual Synergy", price: 115, decibels: "27 dB", softRating: "9.4 / 10", image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&w=600&q=80" },
-            { id: 6, name: "PURE TOUCH ROSE", category: "App Connected", price: 175, decibels: "30 dB", softRating: "9.7 / 10", image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=600&q=80" }
-        ];
-
-        let cart = [];
-
-        // Render Product Catalog
-        function renderProducts() {
-            const container = document.getElementById('productGrid');
-            container.innerHTML = products.map(product => `
-                <div class="product-card glass-panel rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between p-5 space-y-4">
-                    <div class="relative h-56 rounded-xl overflow-hidden bg-black/50">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500">
-                        <span class="absolute top-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-semibold tracking-wider text-crimson border border-crimson/20">
-                            ${product.category}
-                        </span>
-                    </div>
-
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-serif font-bold text-lg text-white">${product.name}</h3>
-                            <span class="text-crimson font-bold">$${product.price}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 text-[11px] text-neutral-400 pt-2 border-t border-white/5">
-                            <div>Whisper Acoustics: <span class="text-white">${product.decibels}</span></div>
-                            <div>Softness Index: <span class="text-white">${product.softRating}</span></div>
-                        </div>
-                    </div>
-
-                    <button onclick="addToCart(${product.id})" class="w-full py-3 rounded-xl bg-crimson/20 border border-crimson/40 hover:bg-crimson text-white text-xs font-semibold tracking-wider uppercase transition-colors">
-                        Add to Bag
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        // Cart Drawer Handlers
-        function addToCart(productId) {
-            const item = products.find(p => p.id === productId);
-            cart.push(item);
-            updateCart();
-            toggleCartDrawer(true);
-        }
-
-        function updateCart() {
-            document.getElementById('cartCount').innerText = cart.length;
-            const itemsContainer = document.getElementById('cartItemsList');
-            const subtotalElement = document.getElementById('cartSubtotal');
-
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = 'Your shopping bag is empty.';
-                subtotalElement.innerText = '$0.00';
-                return;
-            }
-
-            itemsContainer.innerHTML = cart.map(item => `
-                <div class="flex justify-between items-center py-2 border-b border-white/5">
-                    <div>
-                        <div class="font-semibold text-white">${item.name}</div>
-                        <div class="text-xs text-neutral-500">${item.category}</div>
-                    </div>
-                    <span class="text-crimson font-bold">$${item.price}</span>
-                </div>
-            `).join('');
-
-            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-            subtotalElement.innerText = `$${subtotal.toFixed(2)}`;
-        }
-
-        function toggleCartDrawer(open) {
-            const drawer = document.getElementById('cartDrawer');
-            const overlay = document.getElementById('cartOverlay');
-            const content = document.getElementById('cartContent');
-
-            if (open) {
-                drawer.classList.remove('hidden');
-                setTimeout(() => {
-                    overlay.classList.remove('opacity-0');
-                    content.classList.remove('translate-x-full');
-                }, 10);
-            } else {
-                overlay.classList.add('opacity-0');
-                content.classList.add('translate-x-full');
-                setTimeout(() => {
-                    drawer.classList.add('hidden');
-                }, 300);
-            }
-        }
-
-        function toggleQuizModal(open) {
-            const modal = document.getElementById('quizModal');
-            if (open) modal.classList.remove('hidden');
-            else modal.classList.add('hidden');
-        }
-
-        function togglePackagingModal(open) {
-            alert("Discreet Packaging Guarantee:\n\n- Plain brown/black unbranded outer shipping box.\n- Billing descriptor appears as 'POM ONLINE MERCHANT'.\n- No product identifiers or imagery anywhere on shipping label.");
-        }
-
-        // Emergency Quick Exit Panic Button
-        function quickExit() {
-            window.location.href = "https://www.google.com";
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") quickExit();
-        });
-
-        // Ambient Red Glowing Fluid Canvas Shader Effect
-        const canvas = document.getElementById('fluidCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height, particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.radius = Math.random() * 180 + 80;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.alpha = Math.random() * 0.25 + 0.05;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < -100 || this.x > width + 100 || this.y < -100 || this.y > height + 100) {
-                    this.reset();
-                }
-            }
-            draw() {
-                const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-                grad.addColorStop(0, `rgba(230, 0, 76, ${this.alpha})`);
-                grad.addColorStop(0.6, `rgba(128, 0, 40, ${this.alpha * 0.4})`);
-                grad.addColorStop(1, 'rgba(8, 6, 8, 0)');
-
-                ctx.fillStyle = grad;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 18; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-        initParticles();
-        animate();
-        renderProducts();
-    </script>
 </body>
 </html>
