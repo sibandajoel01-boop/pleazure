@@ -16,10 +16,24 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       letter-spacing: -0.01em;
+      overflow-x: hidden;
     }
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-glow {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(120, 40, 200, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* Top Announcement Bar */
@@ -32,6 +46,8 @@
       text-align: center;
       padding: 10px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 10;
     }
 
     /* Navigation Header */
@@ -84,10 +100,12 @@
 
     /* Hero Section */
     .hero {
+      position: relative;
       padding: 120px 24px 80px;
       text-align: center;
       max-width: 840px;
       margin: 0 auto;
+      z-index: 1;
     }
     .hero-subtitle {
       font-size: 12px;
@@ -177,7 +195,6 @@
       margin: 0 auto;
     }
 
-    /* Mobile Responsive Fine-Tuning */
     @media (max-width: 734px) {
       .hero-title {
         font-size: 2.2rem;
@@ -209,7 +226,9 @@
     </button>
   </header>
 
-  <main>
+  <main style="position: relative;">
+    <div class="ambient-glow"></div>
+
     <section class="hero">
       <p class="hero-subtitle">Intimate Wellness</p>
       <h1 class="hero-title">Engineered for pure sensation.</h1>
