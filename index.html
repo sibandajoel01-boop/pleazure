@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLEAZURE.ONLINE | Refined Sensory Engineering</title>
+  <title>PLEAZURE.ONLINE</title>
   <style>
     * {
       box-sizing: border-box;
@@ -11,10 +11,11 @@
       padding: 0;
     }
     body {
-      background-color: #050505;
+      background-color: #000000;
       color: #f5f5f7;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.01em;
     }
     a {
       color: inherit;
@@ -23,14 +24,14 @@
 
     /* Top Announcement Bar */
     .announcement-bar {
-      background: #111;
-      color: #888;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      background: #0a0a0c;
+      color: #86868b;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
       text-align: center;
-      padding: 8px 16px;
-      border-bottom: 1px solid #1c1c1e;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     /* Navigation Header */
@@ -38,140 +39,168 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 24px;
-      background: rgba(5, 5, 5, 0.95);
-      backdrop-filter: blur(10px);
+      padding: 16px 32px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid #1c1c1e;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .brand-logo {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: 0.22em;
-      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      color: #f5f5f7;
       text-transform: uppercase;
     }
     .cart-bag-btn {
       background: none;
       border: none;
-      color: #fff;
+      color: #f5f5f7;
       cursor: pointer;
       display: flex;
       align-items: center;
       position: relative;
-      padding: 4px;
+      padding: 6px;
     }
     .cart-count {
       position: absolute;
-      top: -4px;
-      right: -8px;
-      background: #d4af37;
-      color: #000;
+      top: -2px;
+      right: -6px;
+      background: #2c2c2e;
+      color: #f5f5f7;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 600;
       border-radius: 50%;
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     /* Hero Section */
     .hero {
-      padding: 80px 24px 60px;
+      padding: 120px 24px 80px;
       text-align: center;
-      max-width: 800px;
+      max-width: 840px;
       margin: 0 auto;
     }
     .hero-subtitle {
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      letter-spacing: 0.25em;
-      color: #d4af37;
-      margin-bottom: 16px;
+      color: #86868b;
+      margin-bottom: 20px;
     }
     .hero-title {
-      font-size: 2.5rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      line-height: 1.2;
-      margin-bottom: 20px;
-      color: #fff;
+      font-size: 3.2rem;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.08;
+      margin-bottom: 24px;
+      color: #f5f5f7;
     }
     .hero-description {
-      font-size: 1rem;
-      color: #8e8e93;
-      line-height: 1.6;
-      max-width: 580px;
-      margin: 0 auto 32px;
+      font-size: 1.15rem;
+      color: #86868b;
+      line-height: 1.5;
+      font-weight: 400;
+      max-width: 620px;
+      margin: 0 auto 40px;
     }
+    
+    /* Apple-Style Glass Pill Button */
     .btn-primary {
       display: inline-block;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f5f5f7;
+      padding: 14px 28px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      border-radius: 980px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-primary:hover {
+      background: rgba(255, 255, 255, 0.95);
       color: #000;
-      padding: 14px 32px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      border-radius: 2px;
-      transition: opacity 0.2s;
+      border-color: #fff;
     }
 
     /* Section Headers */
     .section-title {
-      font-size: 1.1rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      text-align: center;
-      margin: 60px 0 12px;
+      font-size: 1.5rem;
       font-weight: 600;
+      letter-spacing: -0.015em;
+      text-align: center;
+      margin: 80px 0 12px;
+      color: #f5f5f7;
     }
     .section-subtext {
       text-align: center;
-      color: #6e6e73;
-      font-size: 0.85rem;
-      margin-bottom: 40px;
+      color: #86868b;
+      font-size: 0.95rem;
+      margin-bottom: 48px;
     }
 
-    /* Discreet Guarantee Grid */
+    /* Discreet Guarantee Banner */
     .guarantee-box {
-      background: #0d0d0e;
-      border: 1px solid #1c1c1e;
-      padding: 32px 24px;
-      margin: 40px 24px;
-      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 40px 32px;
+      margin: 60px 24px 100px;
+      border-radius: 18px;
       text-align: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .guarantee-box h3 {
-      font-size: 0.95rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
       margin-bottom: 12px;
-      color: #fff;
+      color: #f5f5f7;
     }
     .guarantee-box p {
-      color: #8e8e93;
-      font-size: 0.85rem;
+      color: #86868b;
+      font-size: 0.95rem;
       line-height: 1.6;
-      max-width: 600px;
+      max-width: 580px;
       margin: 0 auto;
+    }
+
+    /* Mobile Responsive Fine-Tuning */
+    @media (max-width: 734px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .hero-description {
+        font-size: 1rem;
+      }
+      .site-header {
+        padding: 14px 20px;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="announcement-bar">
-    Complete Privacy Guarantee &bull; 100% Discreet Shipping
+    Complete Privacy Guarantee &bull; 100% Discreet Packaging
   </div>
 
   <header class="site-header">
     <a href="/" class="brand-logo">PLEAZURE</a>
     <button class="cart-bag-btn" aria-label="Shopping Bag">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -182,22 +211,22 @@
 
   <main>
     <section class="hero">
-      <p class="hero-subtitle">Refined Sensory Engineering</p>
-      <h1 class="hero-title">ELEVATED SENSORY INTELLIGENCE</h1>
+      <p class="hero-subtitle">Intimate Wellness</p>
+      <h1 class="hero-title">Engineered for pure sensation.</h1>
       <p class="hero-description">
-        An intimate collection designed for total anatomical resonance. Engineered with whispering decibel acoustics, liquid silicone contours, and continuous tactile motion waves.
+        Precision-crafted anatomical devices. Silent motor acoustics, seamless liquid silicone, and tailored tactile feedback.
       </p>
-      <a href="#catalog" class="btn-primary">Explore Collection (30 Items)</a>
+      <a href="#catalog" class="btn-primary">Explore the Collection</a>
     </section>
 
     <section id="catalog">
-      <h2 class="section-title">Curated Catalog</h2>
-      <p class="section-subtext">Select a device to view tactile physics specs and acoustics.</p>
+      <h2 class="section-title">The Collection</h2>
+      <p class="section-subtext">Curated luxury wellness devices.</p>
     </section>
 
     <div class="guarantee-box">
-      <h3>100% Discreet Deliveries</h3>
-      <p>We ensure total privacy from click to delivery. Orders arrive in plain unbranded matte shipping boxes with no mention of products or merchant details on bank records.</p>
+      <h3>Discreet by design.</h3>
+      <p>Orders arrive in completely unbranded, plain matte packaging. No product names or merchant branding will ever appear on your bank statement.</p>
     </div>
   </main>
 
