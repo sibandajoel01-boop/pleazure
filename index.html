@@ -173,14 +173,12 @@
       overflow: hidden;
       margin-bottom: 16px;
       padding: 12px;
-      mix-blend-mode: lighten;
     }
     .product-image-container img {
       max-width: 90%;
       max-height: 90%;
       object-fit: contain;
       transition: transform 0.4s ease;
-      filter: contrast(102%);
     }
 
     .thumbnail-row {
@@ -188,6 +186,7 @@
       gap: 8px;
       margin-bottom: 20px;
       min-height: 48px;
+      flex-wrap: wrap;
     }
     .thumb-btn {
       width: 44px;
@@ -351,10 +350,23 @@
         <div class="product-card">
           <div>
             <div class="product-image-container">
-              <img id="cleanser-main" src="images/cleanser.jpg" alt="Botanical Device Cleanser">
+              <img id="cleanser-main" src="images/cleanser-1.jpg" alt="Botanical Device Cleanser">
             </div>
 
-            <div class="thumbnail-row"></div>
+            <div class="thumbnail-row">
+              <button class="thumb-btn active" onclick="switchImage('cleanser-main', 'images/cleanser-1.jpg', this)">
+                <img src="images/cleanser-1.jpg" alt="View 1">
+              </button>
+              <button class="thumb-btn" onclick="switchImage('cleanser-main', 'images/cleanser-2.jpg', this)">
+                <img src="images/cleanser-2.jpg" alt="View 2">
+              </button>
+              <button class="thumb-btn" onclick="switchImage('cleanser-main', 'images/cleanser-3.jpg', this)">
+                <img src="images/cleanser-3.jpg" alt="View 3">
+              </button>
+              <button class="thumb-btn" onclick="switchImage('cleanser-main', 'images/cleanser-4.jpg', this)">
+                <img src="images/cleanser-4.jpg" alt="View 4">
+              </button>
+            </div>
 
             <p class="product-tag">HYGIENE & CARE</p>
             <h3 class="product-name">Botanical Device Cleanser</h3>
