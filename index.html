@@ -175,12 +175,50 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       padding: 12px;
+      position: relative;
     }
     .product-image-container img {
       max-width: 90%;
       max-height: 90%;
+      object-fit: contain;
+    }
+
+    .no-image-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #86868b;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .thumbnail-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      min-height: 40px;
+    }
+    .thumb-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #ffffff;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 2px;
+    }
+    .thumb-btn.active, .thumb-btn:hover {
+      border-color: #ffffff;
+    }
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
 
@@ -299,7 +337,7 @@
     </section>
 
     <section class="catalog-container">
-      <h2 class="section-title">The Complete Collection</h2>
+      <h2 class="section-title">The Collection</h2>
       <p class="section-subtext">Curated luxury devices and anatomical care essentials.</p>
 
       <div class="product-grid" id="product-grid"></div>
@@ -314,186 +352,197 @@
   <script>
     const products = [
       {
+        id: "cleanser",
         tag: "HYGIENE & CARE",
         name: "Botanical Device Cleanser",
         desc: "An essential antibacterial sanitizing formula developed specifically for technical liquid silicone, TPE, and acrylic wellness devices, cleansing thoroughly without eroding sensitive textures.",
         price: "€14.99",
-        image: "images/cleanser-1.jpg"
+        images: [
+          "images/cleanser-1.jpg",
+          "images/cleanser-2.jpg",
+          "images/cleanser-3.jpg",
+          "images/cleanser-4.jpg"
+        ]
+      },
+      {
+        id: "rev-cup",
+        tag: "MALE WELLNESS",
+        name: "Rev Air Tight Reusable Masturbation Cup",
+        desc: "Transparent optical acrylic chamber with internal ribbed sleeve and adjustable vacuum air release valve.",
+        price: "€28.99",
+        images: [
+          "images/cup.jpg",
+          "images/cup-2.jpg",
+          "images/cup-3.jpg"
+        ]
       },
       {
         tag: "VIBRATORS & STIMULATORS",
         name: "Bully Boy Realistic Vibrator Flesh",
         desc: "Engineered with realistic flesh material, powerful internal vibration modes, and targeted anatomical contours.",
         price: "€29.99",
-        image: "images/bully-boy-flesh/1.jpg"
+        images: []
       },
       {
         tag: "INTIMATE CARE",
         name: "Stallion Delay Creme 1.5oz",
         desc: "Advanced topical formulation designed for prolonged endurance, smooth application, and enhanced control.",
         price: "€11.99",
-        image: "images/stallion-delay-creme/1.jpg"
+        images: []
       },
       {
         tag: "INTIMATE CARE",
         name: "Doc Johnson Ultimate Blow Job Gel 5 Pack",
         desc: "Flavored oral enhancement gel pack formulated to increase glide, comfort, and sensory delight.",
         price: "€18.99",
-        image: "images/doc-johnson-blow-job-gel/1.jpg"
+        images: []
       },
       {
         tag: "MALE WELLNESS",
         name: "Loving Joy Real Feel Pussy Stroker",
         desc: "Crafted with realistic material, offering natural body warmth response, anatomical texture, and flexible outer casing for custom pressure control.",
         price: "€15.99",
-        image: "images/pussy-stroker/1.jpg"
+        images: []
       },
       {
         tag: "SENSORY EXPLORATION",
         name: "Loving Joy Triple Ripple Anal Beads Pink",
         desc: "Designed with progressive spherical contours, offering smooth graduated sizing, flexible body safe material, and a secure retrieve handle.",
         price: "€14.99",
-        image: "images/anal-beads-pink/1.jpg"
+        images: []
       },
       {
         tag: "LUXURY VIBRATORS",
         name: "Jessica Rabbit Ultimate Plus Vibrator",
         desc: "Dual stimulation design with flexible bunny ears, deep rumbling motor patterns, and velvety body safe silicone.",
         price: "€49.99",
-        image: "images/jessica-rabbit-plus/1.jpg"
+        images: []
       },
       {
         tag: "LUXURY VIBRATORS",
         name: "Jessica Rabbit Ultimate XXTRA G Vibrator",
         desc: "Ergonomic curved G spot tip paired with external clitoral pulsation motors for complete dual bliss.",
         price: "€54.99",
-        image: "images/jessica-rabbit-xxtra/1.jpg"
+        images: []
       },
       {
         tag: "CHASTITY & RESTRAINT",
         name: "Impound Corkscrew Male Chastity Device",
         desc: "Precision fitted cage construction with removable internal urethral plug and secure brass padlock attachment.",
         price: "€36.99",
-        image: "images/chastity-corkscrew/1.jpg"
+        images: []
       },
       {
         tag: "CHASTITY & RESTRAINT",
         name: "Impound Gladiator Male Chastity Device",
         desc: "Lightweight vented metal mesh cage providing max airflow, security, and long term wearability.",
         price: "€39.99",
-        image: "images/chastity-gladiator/1.jpg"
+        images: []
       },
       {
         tag: "CHASTITY & RESTRAINT",
         name: "Impound Exhibition Male Chastity Device",
         desc: "Minimalist ring frame structure engineered for comfortable discreet daily restraint.",
         price: "€37.99",
-        image: "images/chastity-exhibition/1.jpg"
-      },
-      {
-        tag: "MALE WELLNESS",
-        name: "Rev Air Tight Reusable Masturbation Cup",
-        desc: "Transparent optical acrylic chamber with internal ribbed sleeve and adjustable vacuum air release valve.",
-        price: "€28.99",
-        image: "images/rev-air-cup/1.jpg"
+        images: []
       },
       {
         tag: "EXTENDERS",
         name: "Mighty 3 Inch Penis Extension with Ball Loop",
         desc: "Flexible textured extension sleeve with anchor base ring to boost length and girth effortlessly.",
         price: "€15.99",
-        image: "images/extension-3inch/1.jpg"
+        images: []
       },
       {
         tag: "EXTENDERS",
         name: "Extra 3 Inch Penis Extension",
         desc: "Smooth anatomical extension sleeve crafted with soft elastic material for a seamless natural fit.",
         price: "€14.99",
-        image: "images/extension-extra-3inch/1.jpg"
+        images: []
       },
       {
         tag: "BDSM & RESTRAINT",
         name: "Bound to Please Silicone Universal Cuffs",
         desc: "Ultra soft flexible liquid silicone wrist cuffs featuring heavy duty metal connector rings.",
         price: "€18.99",
-        image: "images/silicone-cuffs/1.jpg"
+        images: []
       },
       {
         tag: "LELO COLLECTION",
         name: "LELO Nea 3 Clitoral Massager Black",
         desc: "Compact rechargeable pebble massager with whisper quiet motor technology and premium silk finish.",
         price: "€89.99",
-        image: "images/lelo-nea-3/1.jpg"
+        images: []
       },
       {
         tag: "LELO COLLECTION",
         name: "LELO Originals AKO Clitoral Massager",
         desc: "Ergonomic curved body massager providing deep resonant vibrations across multiple intensity levels.",
         price: "€99.99",
-        image: "images/lelo-ako/1.jpg"
+        images: []
       },
       {
         tag: "LELO COLLECTION",
         name: "LELO Sona 3 Clitoral Massager Cyber Purple",
         desc: "Sonic wave technology delivering touchless clitoral stimulation through gentle sonic pulses.",
         price: "€119.99",
-        image: "images/lelo-sona-3-purple/1.jpg"
+        images: []
       },
       {
         tag: "LELO COLLECTION",
         name: "LELO Sona 3 Cruise Clitoral Massager Black",
         desc: "Patented cruise control engine maintains full power output during firm contact and pressure.",
         price: "€129.99",
-        image: "images/lelo-sona-3-cruise/1.jpg"
+        images: []
       },
       {
         tag: "LELO COLLECTION",
         name: "LELO Sona 3 Clitoral Massager Cream",
         desc: "Elegant cream finish sonic wave stimulator designed for 100 percent waterproof bath and shower immersion.",
         price: "€119.99",
-        image: "images/lelo-sona-3-cream/1.jpg"
+        images: []
       },
       {
         tag: "BULLET VIBRATORS",
         name: "Mina Whisper Rechargeable Bullet Vibrator",
         desc: "Sleek travel friendly micro bullet vibrator offering quiet high frequency resonance.",
         price: "€22.99",
-        image: "images/mina-bullet/1.jpg"
+        images: []
       },
       {
         tag: "DILDOS",
         name: "Loving Joy 9.5 Inch Suction Cup Dildo Black",
         desc: "Realistic molded shaft featuring a heavy duty suction base compatible with smooth flat surfaces and harnesses.",
         price: "€32.99",
-        image: "images/dildo-black-9.5/1.jpg"
+        images: []
       },
       {
         tag: "DILDOS",
         name: "Loving Joy 8.5 Inch Suction Cup Dildo Black",
         desc: "Mid size realistic flexible dildo equipped with strong suction cup base for versatile mounting.",
         price: "€27.99",
-        image: "images/dildo-black-8.5/1.jpg"
+        images: []
       },
       {
         tag: "VIBRATING DILDOS",
         name: "Loving Joy 9 Inch Remote Vibrating Dildo",
         desc: "Wireless remote controlled vibrating silicone shaft engineered with multi speed motor settings.",
         price: "€42.99",
-        image: "images/dildo-vibrating-9/1.jpg"
+        images: []
       },
       {
         tag: "VIBRATING DILDOS",
         name: "Loving Joy 8 Inch Remote Vibrating Dildo",
         desc: "Ergonomic 8 inch remote controlled vibrating shaft with suction cup anchor base.",
         price: "€36.99",
-        image: "images/dildo-vibrating-8/1.jpg"
+        images: []
       },
       {
         tag: "VIBRATING DILDOS",
         name: "Loving Joy 7 Inch Remote Vibrating Dildo",
         desc: "Compact remote operated vibrating silicone dildo tailored for smooth targeted stimulation.",
         price: "€31.99",
-        image: "images/dildo-vibrating-7/1.jpg"
+        images: []
       }
     ];
 
@@ -504,24 +553,63 @@
       renderProducts();
     });
 
+    function switchImg(mainId, src, btn) {
+      document.getElementById(mainId).src = src;
+      const row = btn.parentElement;
+      row.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
     function renderProducts() {
       const grid = document.getElementById('product-grid');
-      grid.innerHTML = products.map((p) => `
-        <div class="product-card">
-          <div>
-            <div class="product-image-container">
-              <img src="${p.image}" alt="${p.name}" onerror="this.src='images/cleanser-1.jpg'">
+      grid.innerHTML = products.map((p, idx) => {
+        const hasImages = p.images && p.images.length > 0;
+        const mainImg = hasImages ? p.images[0] : '';
+        const imgId = `img-main-${idx}`;
+
+        const thumbsHtml = hasImages && p.images.length > 1 ? `
+          <div class="thumbnail-row">
+            ${p.images.map((img, i) => `
+              <button class="thumb-btn ${i === 0 ? 'active' : ''}" onclick="switchImg('${imgId}', '${img}', this)">
+                <img src="${img}" alt="View ${i+1}">
+              </button>
+            `).join('')}
+          </div>
+        ` : '<div style="height:20px;"></div>';
+
+        const imgContainerHtml = hasImages ? `
+          <div class="product-image-container">
+            <img id="${imgId}" src="${mainImg}" alt="${p.name}">
+          </div>
+        ` : `
+          <div class="product-image-container" style="background:#0a0a0c; border: 1px dashed rgba(255,255,255,0.15);">
+            <div class="no-image-placeholder">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px; opacity:0.5;">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>Image Coming Soon</span>
             </div>
-            <p class="product-tag">${p.tag}</p>
-            <h3 class="product-name">${p.name}</h3>
-            <p class="product-desc">${p.desc}</p>
           </div>
-          <div class="product-footer">
-            <span class="product-price">${p.price}</span>
-            <button class="btn-add-cart" onclick="addToBag()">Add to Bag</button>
+        `;
+
+        return `
+          <div class="product-card">
+            <div>
+              ${imgContainerHtml}
+              ${thumbsHtml}
+              <p class="product-tag">${p.tag}</p>
+              <h3 class="product-name">${p.name}</h3>
+              <p class="product-desc">${p.desc}</p>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">${p.price}</span>
+              <button class="btn-add-cart" onclick="addToBag()">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function addToBag() {
