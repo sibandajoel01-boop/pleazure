@@ -75,17 +75,21 @@
       position: absolute;
       top: -2px;
       right: -6px;
-      background: #2c2c2e;
-      color: #f5f5f7;
+      background: #0071e3;
+      color: #ffffff;
       font-size: 10px;
       font-weight: 600;
       border-radius: 50%;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: transform 0.2s ease;
+    }
+    .cart-count.bump {
+      transform: scale(1.3);
     }
 
     .hero {
@@ -325,7 +329,7 @@
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <path d="M16 10a4 4 0 0 1-8 0"></path>
       </svg>
-      <span class="cart-count">0</span>
+      <span class="cart-count" id="cart-count">0</span>
     </button>
   </header>
 
@@ -371,59 +375,84 @@
             <p class="product-tag">HYGIENE & CARE</p>
             <h3 class="product-name">Botanical Device Cleanser</h3>
             <p class="product-desc">
-              An essential antibacterial sanitizing formula developed specifically for technical liquid silicone, TPE, and acrylic wellness devices. Cleanse thoroughly without eroding sensitive textures.
+              An essential antibacterial sanitizing formula developed specifically for technical liquid silicone, TPE, and acrylic wellness devices, cleansing thoroughly without eroding sensitive textures.
             </p>
 
             <ul class="feature-list">
               <li>250ml fast acting antimicrobial spray</li>
-              <li>Alcohol free, body safe pH balanced formula</li>
-              <li>Extends material lifespan, maintains velvety softness</li>
+              <li>Alcohol free body safe pH balanced formula</li>
+              <li>Extends material lifespan and maintains velvety softness</li>
               <li>Includes Zinc Gluconate for odor elimination</li>
             </ul>
           </div>
 
           <div class="product-footer">
             <span class="product-price">€14.99</span>
-            <button class="btn-add-cart">Add to Bag</button>
+            <button class="btn-add-cart" onclick="addToBag()">Add to Bag</button>
           </div>
         </div>
 
-        <!-- Product 2: Rev-Air Cup -->
+        <!-- Product 2: Pussy Stroker -->
         <div class="product-card">
           <div>
             <div class="product-image-container">
-              <img id="cup-main" src="images/cup.jpg" alt="Rev-Air Visual Suction Stroker">
+              <img id="pussy-main" src="images/pussy-stroker/pussy-stroker-1.jpg" alt="Loving Joy Real Feel Male Masturbator Pussy Stroker">
             </div>
 
             <div class="thumbnail-row">
-              <button class="thumb-btn active" onclick="switchImage('cup-main', 'images/cup.jpg', this)">
-                <img src="images/cup.jpg" alt="View 1">
-              </button>
-              <button class="thumb-btn" onclick="switchImage('cup-main', 'images/cup-2.jpg', this)">
-                <img src="images/cup-2.jpg" alt="View 2">
-              </button>
-              <button class="thumb-btn" onclick="switchImage('cup-main', 'images/cup-3.jpg', this)">
-                <img src="images/cup-3.jpg" alt="View 3">
+              <button class="thumb-btn active" onclick="switchImage('pussy-main', 'images/pussy-stroker/pussy-stroker-1.jpg', this)">
+                <img src="images/pussy-stroker/pussy-stroker-1.jpg" alt="View 1">
               </button>
             </div>
 
             <p class="product-tag">MALE WELLNESS</p>
-            <h3 class="product-name">Rev-Air Visual Suction Stroker</h3>
+            <h3 class="product-name">Loving Joy Real Feel Pussy Stroker</h3>
             <p class="product-desc">
-              Engineered with transparent optical acrylic and an internal high elasticity ribbed matrix. Features top mounted manual valve controls for customizable vacuum suction pressure.
+              Crafted with realistic material, offering natural body warmth response, anatomical texture, and flexible outer casing for custom pressure control.
             </p>
 
             <ul class="feature-list">
-              <li>Transparent visual chamber, 6.5 inch insertable length</li>
-              <li>3 distinct internal sensation zones</li>
-              <li>Top air release valve for adjustable suction control</li>
-              <li>Removable, easy wash ultra soft TPE core</li>
+              <li>Ultra soft real feel internal texture</li>
+              <li>Anatomically molded entry point</li>
+              <li>Easy wash material with flexible outer walls</li>
             </ul>
           </div>
 
           <div class="product-footer">
-            <span class="product-price">€29.99</span>
-            <button class="btn-add-cart">Add to Bag</button>
+            <span class="product-price">€5.88</span>
+            <button class="btn-add-cart" onclick="addToBag()">Add to Bag</button>
+          </div>
+        </div>
+
+        <!-- Product 3: Pink Anal Beads -->
+        <div class="product-card">
+          <div>
+            <div class="product-image-container">
+              <img id="beads-main" src="images/anal-beads-pink/anal-beads-pink-1.jpg" alt="Loving Joy Triple Ripple Anal Beads Pink">
+            </div>
+
+            <div class="thumbnail-row">
+              <button class="thumb-btn active" onclick="switchImage('beads-main', 'images/anal-beads-pink/anal-beads-pink-1.jpg', this)">
+                <img src="images/anal-beads-pink/anal-beads-pink-1.jpg" alt="View 1">
+              </button>
+            </div>
+
+            <p class="product-tag">SENSORY EXPLORATION</p>
+            <h3 class="product-name">Loving Joy Triple Ripple Anal Beads Pink</h3>
+            <p class="product-desc">
+              Designed with progressive spherical contours, offering smooth graduated sizing, flexible body safe material, and a secure retrieve handle.
+            </p>
+
+            <ul class="feature-list">
+              <li>Graduated triple sphere design</li>
+              <li>Body safe flexible material</li>
+              <li>Ergonomic base loop for controlled insertion</li>
+            </ul>
+          </div>
+
+          <div class="product-footer">
+            <span class="product-price">€5.37</span>
+            <button class="btn-add-cart" onclick="addToBag()">Add to Bag</button>
           </div>
         </div>
 
@@ -432,16 +461,31 @@
 
     <div class="guarantee-box">
       <h3>Discreet by design.</h3>
-      <p>Orders arrive in completely unbranded plain matte packaging. No product names or merchant branding will ever appear on your bank statement.</p>
+      <p>Orders arrive in completely unbranded plain matte packaging, and no product names or merchant branding will ever appear on your bank statement.</p>
     </div>
   </main>
 
   <script>
+    let itemCount = parseInt(localStorage.getItem('cartCount')) || 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('cart-count').textContent = itemCount;
+    });
+
     function switchImage(targetId, newSrc, btnElement) {
       document.getElementById(targetId).src = newSrc;
       const parent = btnElement.parentElement;
       parent.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
       btnElement.classList.add('active');
+    }
+
+    function addToBag() {
+      itemCount++;
+      localStorage.setItem('cartCount', itemCount);
+      const badge = document.getElementById('cart-count');
+      badge.textContent = itemCount;
+      badge.classList.add('bump');
+      setTimeout(() => badge.classList.remove('bump'), 200);
     }
   </script>
 
