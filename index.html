@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLEAZURE.ONLINE — Intimate Engineering</title>
+  <title>PLEAZURE.ONLINE</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -164,35 +164,37 @@
 
     .product-image-container {
       width: 100%;
-      height: 260px;
-      background: #050507;
+      height: 280px;
+      background: #ffffff;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       margin-bottom: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      position: relative;
+      padding: 12px;
+      mix-blend-mode: lighten;
     }
     .product-image-container img {
-      max-width: 85%;
-      max-height: 85%;
+      max-width: 90%;
+      max-height: 90%;
       object-fit: contain;
       transition: transform 0.4s ease;
+      filter: contrast(102%);
     }
 
     .thumbnail-row {
       display: flex;
       gap: 8px;
       margin-bottom: 20px;
+      min-height: 48px;
     }
     .thumb-btn {
       width: 44px;
       height: 44px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      background: #050507;
+      background: #ffffff;
       cursor: pointer;
       overflow: hidden;
       padding: 2px;
@@ -313,7 +315,7 @@
 <body>
 
   <div class="announcement-bar">
-    Complete Privacy Guarantee &bull; 100% Discreet Packaging
+    Complete Privacy Guarantee, 100% Discreet Packaging
   </div>
 
   <header class="site-header">
@@ -335,7 +337,7 @@
       <p class="hero-subtitle">Intimate Wellness Engineering</p>
       <h1 class="hero-title">Engineered for pure sensation.</h1>
       <p class="hero-description">
-        Precision-crafted anatomical devices. Silent motor acoustics, seamless liquid silicone, and tailored tactile feedback.
+        Precision crafted anatomical devices, silent motor acoustics, seamless liquid silicone, tailored tactile feedback.
       </p>
     </section>
 
@@ -349,8 +351,10 @@
         <div class="product-card">
           <div>
             <div class="product-image-container">
-              <img id="cleanser-main" src="images/cleanser.jpg" alt="Botanical Device Cleanser" onerror="this.src='https://via.placeholder.com/300x300/0a0a0c/86868b?text=PLEAZURE+CLEANSE'">
+              <img id="cleanser-main" src="images/cleanser.jpg" alt="Botanical Device Cleanser">
             </div>
+
+            <div class="thumbnail-row"></div>
 
             <p class="product-tag">HYGIENE & CARE</p>
             <h3 class="product-name">Botanical Device Cleanser</h3>
@@ -359,9 +363,9 @@
             </p>
 
             <ul class="feature-list">
-              <li>250ml fast-acting antimicrobial spray</li>
-              <li>Alcohol-free & body-safe pH balanced formula</li>
-              <li>Extends material lifespan & maintains velvety softness</li>
+              <li>250ml fast acting antimicrobial spray</li>
+              <li>Alcohol free, body safe pH balanced formula</li>
+              <li>Extends material lifespan, maintains velvety softness</li>
               <li>Includes Zinc Gluconate for odor elimination</li>
             </ul>
           </div>
@@ -376,10 +380,9 @@
         <div class="product-card">
           <div>
             <div class="product-image-container">
-              <img id="cup-main" src="images/cup.jpg" alt="Rev-Air Visual Suction Stroker" onerror="this.src='https://via.placeholder.com/300x300/0a0a0c/86868b?text=REV-AIR+STROKER'">
+              <img id="cup-main" src="images/cup.jpg" alt="Rev-Air Visual Suction Stroker">
             </div>
 
-            <!-- Multi-Image Thumbnails -->
             <div class="thumbnail-row">
               <button class="thumb-btn active" onclick="switchImage('cup-main', 'images/cup.jpg', this)">
                 <img src="images/cup.jpg" alt="View 1">
@@ -395,14 +398,14 @@
             <p class="product-tag">MALE WELLNESS</p>
             <h3 class="product-name">Rev-Air Visual Suction Stroker</h3>
             <p class="product-desc">
-              Engineered with transparent optical acrylic and an internal high-elasticity ribbed matrix. Features top-mounted manual valve controls for customizable vacuum suction pressure.
+              Engineered with transparent optical acrylic and an internal high elasticity ribbed matrix. Features top mounted manual valve controls for customizable vacuum suction pressure.
             </p>
 
             <ul class="feature-list">
-              <li>Transparent visual chamber (6.5" insertable length)</li>
+              <li>Transparent visual chamber, 6.5 inch insertable length</li>
               <li>3 distinct internal sensation zones</li>
-              <li>Top air-release valve for adjustable suction control</li>
-              <li>Removable, easy-wash ultra-soft TPE core</li>
+              <li>Top air release valve for adjustable suction control</li>
+              <li>Removable, easy wash ultra soft TPE core</li>
             </ul>
           </div>
 
@@ -417,7 +420,7 @@
 
     <div class="guarantee-box">
       <h3>Discreet by design.</h3>
-      <p>Orders arrive in completely unbranded, plain matte packaging. No product names or merchant branding will ever appear on your bank statement.</p>
+      <p>Orders arrive in completely unbranded plain matte packaging. No product names or merchant branding will ever appear on your bank statement.</p>
     </div>
   </main>
 
