@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLEAZURE.ONLINE</title>
+  <title>PLEAZURE.ONLINE — Intimate Engineering</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: #000000;
       color: #f5f5f7;
@@ -18,12 +14,8 @@
       letter-spacing: -0.01em;
       overflow-x: hidden;
     }
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
-    /* Ambient Background Glow */
     .ambient-glow {
       position: absolute;
       top: -100px;
@@ -36,7 +28,6 @@
       z-index: 0;
     }
 
-    /* Top Announcement Bar */
     .announcement-bar {
       background: #0a0a0c;
       color: #86868b;
@@ -50,7 +41,6 @@
       z-index: 10;
     }
 
-    /* Navigation Header */
     .site-header {
       display: flex;
       justify-content: space-between;
@@ -98,10 +88,9 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    /* Hero Section */
     .hero {
       position: relative;
-      padding: 120px 24px 80px;
+      padding: 100px 24px 60px;
       text-align: center;
       max-width: 840px;
       margin: 0 auto;
@@ -131,34 +120,18 @@
       max-width: 620px;
       margin: 0 auto 40px;
     }
-    
-    /* Apple-Style Glass Pill Button */
-    .btn-primary {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.1);
-      color: #f5f5f7;
-      padding: 14px 28px;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      border-radius: 980px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(12px);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .btn-primary:hover {
-      background: rgba(255, 255, 255, 0.95);
-      color: #000;
-      border-color: #fff;
-    }
 
-    /* Section Headers */
+    .catalog-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
     .section-title {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 600;
       letter-spacing: -0.015em;
       text-align: center;
-      margin: 80px 0 12px;
+      margin-bottom: 8px;
       color: #f5f5f7;
     }
     .section-subtext {
@@ -168,7 +141,142 @@
       margin-bottom: 48px;
     }
 
-    /* Discreet Guarantee Banner */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 32px;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .product-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .product-image-container {
+      width: 100%;
+      height: 260px;
+      background: #050507;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+    .product-image-container img {
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+      transition: transform 0.4s ease;
+    }
+
+    .thumbnail-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .thumb-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #050507;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 2px;
+      transition: border-color 0.2s;
+    }
+    .thumb-btn.active, .thumb-btn:hover {
+      border-color: #ffffff;
+    }
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .product-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #86868b;
+      margin-bottom: 8px;
+    }
+    .product-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #f5f5f7;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .product-desc {
+      font-size: 0.88rem;
+      color: #86868b;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-bottom: 24px;
+      font-size: 0.82rem;
+      color: #a1a1a6;
+    }
+    .feature-list li {
+      margin-bottom: 6px;
+      padding-left: 14px;
+      position: relative;
+    }
+    .feature-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #86868b;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f5f5f7;
+    }
+    .btn-add-cart {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f5f5f7;
+      padding: 10px 18px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 980px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-add-cart:hover {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
     .guarantee-box {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -196,15 +304,9 @@
     }
 
     @media (max-width: 734px) {
-      .hero-title {
-        font-size: 2.2rem;
-      }
-      .hero-description {
-        font-size: 1rem;
-      }
-      .site-header {
-        padding: 14px 20px;
-      }
+      .hero-title { font-size: 2.2rem; }
+      .product-grid { grid-template-columns: 1fr; }
+      .site-header { padding: 14px 20px; }
     }
   </style>
 </head>
@@ -230,17 +332,87 @@
     <div class="ambient-glow"></div>
 
     <section class="hero">
-      <p class="hero-subtitle">Intimate Wellness</p>
+      <p class="hero-subtitle">Intimate Wellness Engineering</p>
       <h1 class="hero-title">Engineered for pure sensation.</h1>
       <p class="hero-description">
         Precision-crafted anatomical devices. Silent motor acoustics, seamless liquid silicone, and tailored tactile feedback.
       </p>
-      <a href="#catalog" class="btn-primary">Explore the Collection</a>
     </section>
 
-    <section id="catalog">
+    <section class="catalog-container">
       <h2 class="section-title">The Collection</h2>
-      <p class="section-subtext">Curated luxury wellness devices.</p>
+      <p class="section-subtext">Curated luxury devices and anatomical care essentials.</p>
+
+      <div class="product-grid">
+        
+        <!-- Product 1: Cleanser -->
+        <div class="product-card">
+          <div>
+            <div class="product-image-container">
+              <img id="cleanser-main" src="images/cleanser.jpg" alt="Botanical Device Cleanser" onerror="this.src='https://via.placeholder.com/300x300/0a0a0c/86868b?text=PLEAZURE+CLEANSE'">
+            </div>
+
+            <p class="product-tag">HYGIENE & CARE</p>
+            <h3 class="product-name">Botanical Device Cleanser</h3>
+            <p class="product-desc">
+              An essential antibacterial sanitizing formula developed specifically for technical liquid silicone, TPE, and acrylic wellness devices. Cleanse thoroughly without eroding sensitive textures.
+            </p>
+
+            <ul class="feature-list">
+              <li>250ml fast-acting antimicrobial spray</li>
+              <li>Alcohol-free & body-safe pH balanced formula</li>
+              <li>Extends material lifespan & maintains velvety softness</li>
+              <li>Includes Zinc Gluconate for odor elimination</li>
+            </ul>
+          </div>
+
+          <div class="product-footer">
+            <span class="product-price">€14.99</span>
+            <button class="btn-add-cart">Add to Bag</button>
+          </div>
+        </div>
+
+        <!-- Product 2: Rev-Air Cup -->
+        <div class="product-card">
+          <div>
+            <div class="product-image-container">
+              <img id="cup-main" src="images/cup.jpg" alt="Rev-Air Visual Suction Stroker" onerror="this.src='https://via.placeholder.com/300x300/0a0a0c/86868b?text=REV-AIR+STROKER'">
+            </div>
+
+            <!-- Multi-Image Thumbnails -->
+            <div class="thumbnail-row">
+              <button class="thumb-btn active" onclick="switchImage('cup-main', 'images/cup.jpg', this)">
+                <img src="images/cup.jpg" alt="View 1">
+              </button>
+              <button class="thumb-btn" onclick="switchImage('cup-main', 'images/cup-2.jpg', this)">
+                <img src="images/cup-2.jpg" alt="View 2">
+              </button>
+              <button class="thumb-btn" onclick="switchImage('cup-main', 'images/cup-3.jpg', this)">
+                <img src="images/cup-3.jpg" alt="View 3">
+              </button>
+            </div>
+
+            <p class="product-tag">MALE WELLNESS</p>
+            <h3 class="product-name">Rev-Air Visual Suction Stroker</h3>
+            <p class="product-desc">
+              Engineered with transparent optical acrylic and an internal high-elasticity ribbed matrix. Features top-mounted manual valve controls for customizable vacuum suction pressure.
+            </p>
+
+            <ul class="feature-list">
+              <li>Transparent visual chamber (6.5" insertable length)</li>
+              <li>3 distinct internal sensation zones</li>
+              <li>Top air-release valve for adjustable suction control</li>
+              <li>Removable, easy-wash ultra-soft TPE core</li>
+            </ul>
+          </div>
+
+          <div class="product-footer">
+            <span class="product-price">€29.99</span>
+            <button class="btn-add-cart">Add to Bag</button>
+          </div>
+        </div>
+
+      </div>
     </section>
 
     <div class="guarantee-box">
@@ -248,6 +420,15 @@
       <p>Orders arrive in completely unbranded, plain matte packaging. No product names or merchant branding will ever appear on your bank statement.</p>
     </div>
   </main>
+
+  <script>
+    function switchImage(targetId, newSrc, btnElement) {
+      document.getElementById(targetId).src = newSrc;
+      const parent = btnElement.parentElement;
+      parent.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+      btnElement.classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
