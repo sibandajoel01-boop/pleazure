@@ -1,1 +1,297 @@
-404: Not Found
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLEAZURE ONLINE | Elevated Wellness</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #0b0b0b; color: #f5f5f7;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5; padding-top: 60px; -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: fixed; top: 0; width: 100%; height: 60px;
+      background: rgba(11,11,11,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex; justify-content: space-between; align-items: center; padding: 0 24px; z-index: 1000;
+    }
+    .brand-logo { font-size: .95rem; letter-spacing: .25em; font-weight: 500; text-transform: uppercase; color: #fff; text-decoration: none; }
+    .cart-badge { font-size: .8rem; color: #a1a1a6; }
+    .hero { text-align: center; padding: 50px 20px 30px; max-width: 800px; margin: 0 auto; }
+    .hero h1 { font-size: clamp(2rem,5vw,3.2rem); font-weight: 300; letter-spacing: .12em; margin-bottom: 12px; text-transform: uppercase; }
+    .hero p { color: #a1a1a6; font-size: clamp(.9rem,3.5vw,1.1rem); font-weight: 300; }
+    .trust-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; margin-top: 20px; font-size: .78rem; color: #86868b; letter-spacing: .05em; text-transform: uppercase; }
+    .catalog-container { max-width: 1100px; margin: 0 auto; padding: 20px 20px 80px; }
+    .product-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .product-card {
+      background: #141416; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 16px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      transition: transform .2s ease, border-color .2s ease; cursor: pointer;
+    }
+    .product-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-4px); }
+    .image-wrapper {
+      width: 100%; aspect-ratio: 1/1; background: #fff; border-radius: 12px; overflow: hidden;
+      margin-bottom: 16px; display: flex; align-items: center; justify-content: center; padding: 12px;
+    }
+    .image-wrapper img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+    .product-info h3 { font-size: 1rem; font-weight: 500; color: #fff; margin-bottom: 6px; }
+    .product-info p { font-size: .82rem; color: #86868b; margin-bottom: 16px; line-height: 1.4; }
+    .product-meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 8px; }
+    .price { font-size: 1rem; font-weight: 600; color: #fff; }
+    .view-btn { background: #fff; color: #000; border: none; padding: 8px 18px; border-radius: 20px; font-size: .78rem; font-weight: 600; cursor: pointer; transition: background .2s ease; }
+    .view-btn:hover { background: #e5e5ea; }
+
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none;
+      transition: opacity .3s ease; z-index: 2000; padding: 20px; overflow-y: auto;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-content {
+      background: #18181a; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+      max-width: 700px; width: 100%; padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative;
+    }
+    .modal-close { position: absolute; top: 16px; right: 18px; background: rgba(255,255,255,0.1); border: none; color: #a1a1a6; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; z-index: 2; }
+    .modal-image-wrapper { background: #fff; border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: center; }
+    .modal-image-wrapper img { max-width: 100%; max-height: 240px; object-fit: contain; }
+    .thumbs { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .thumbs button { width: 48px; height: 48px; background: #fff; border: 2px solid transparent; border-radius: 8px; padding: 3px; cursor: pointer; }
+    .thumbs button.on { border-color: #888; }
+    .thumbs img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .modal-details h2 { font-size: 1.3rem; font-weight: 500; margin-bottom: 8px; padding-right: 30px; }
+    .modal-price { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 14px; }
+    .modal-desc { font-size: .85rem; color: #a1a1a6; line-height: 1.5; margin-bottom: 18px; }
+    .modal-specs { list-style: none; font-size: .8rem; color: #86868b; margin-bottom: 22px; }
+    .modal-specs li { margin-bottom: 6px; }
+    .buy-now-btn { width: 100%; background: #fff; color: #000; border: none; padding: 12px; border-radius: 24px; font-size: .85rem; font-weight: 600; letter-spacing: .05em; cursor: pointer; text-transform: uppercase; }
+
+    @media (max-width: 850px) { .product-grid { grid-template-columns: repeat(2,1fr); gap: 16px; } .modal-content { grid-template-columns: 1fr; } }
+    @media (max-width: 550px) { .product-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="brand-logo">PLEAZURE</a>
+    <div class="cart-badge">Discreet Shipping Guarantee</div>
+  </nav>
+
+  <section class="hero">
+    <h1>PLEAZURE.ONLINE</h1>
+    <p>Curated wellness formulas, modern performance, quiet luxury</p>
+    <div class="trust-bar">
+      <span>✦ Premium Formulas</span>
+      <span>✦ 100% Plain Packaging</span>
+      <span>✦ Express Delivery</span>
+    </div>
+  </section>
+
+  <main class="catalog-container">
+    <div class="product-grid" id="productGrid"></div>
+  </main>
+
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      <div>
+        <div class="modal-image-wrapper"><img id="mImage" src="" alt=""></div>
+        <div class="thumbs" id="mThumbs"></div>
+      </div>
+      <div class="modal-details">
+        <h2 id="mTitle"></h2>
+        <div class="modal-price" id="mPrice"></div>
+        <p class="modal-desc" id="mDesc"></p>
+        <ul class="modal-specs" id="mSpecs"></ul>
+        <button class="buy-now-btn" onclick="alert('Cart coming soon')">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================
+       PRODUCT LIST  -  this is the ONLY place to edit.
+       To add a product, copy one line and change it.
+       images: file names inside the /images folder
+               (first one is the main picture)
+       price : number (0 for now)
+       ===================================================== */
+    const IMG_FOLDER = 'images/';
+    const CURRENCY = '€';
+
+    const products = [
+      { name: 'Stallion Delay Creme', price: 0, images: ['Stallion Delay Creme.jpg'],
+        desc: 'Targeted endurance formula, smooth application, refined control.',
+        specs: ['Dermatologically tested formula', 'Fast absorbing texture', 'Plain discreet outer packaging'] },
+
+      { name: 'Loving Joy 7 Inch Massager', price: 0, images: ['Loving Joy 7 Inch Massager.jpg'],
+        desc: 'Silky body safe silicone, ultra quiet vibration, ergonomic curve.',
+        specs: ['Medical grade silicone', 'USB rechargeable battery', '100% waterproof design'] },
+
+      { name: 'Velvet Touch Lubricant', price: 0, images: ['Velvet Touch Lubricant.jpg'],
+        desc: 'Silky texture, long lasting glide, gentle skin balance.',
+        specs: ['Water based formula', 'Non-sticky smooth finish', 'Body safe ingredients'] },
+
+      { name: 'Anal Beads Pink', price: 0, images: ['anal-beads-pink.jpg'],
+        desc: 'Graduated beads in soft pink silicone with an easy-pull loop.',
+        specs: ['Body-safe silicone', 'Flexible graduated design', 'Easy to clean'] },
+
+      { name: 'Loving Joy Cleanse Toy Cleaner 250ml', price: 0,
+        images: ['N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-1.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-2.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-3.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-4.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-5.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-5-2.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-6.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-7.jpg'],
+        desc: 'Gentle everyday cleaner designed to keep your toys fresh and hygienic.',
+        specs: ['Hygienic cleansing formula', 'Safe for all materials', '250ml bottle'] },
+
+      { name: 'Toy Cleanser Spray', price: 0,
+        images: ['cleanser.jpg','cleanser-1.jpg','cleanser-2.jpg','cleanser-3.jpg','cleanser-4.jpg'],
+        desc: 'Quick-use antibacterial spray for fast, easy toy care.',
+        specs: ['Antibacterial formulation', 'Gentle on materials', 'Convenient spray'] },
+
+      { name: 'LELO Ako', price: 0, images: ['lelo-ako.jpg'],
+        desc: 'Luxury design with whisper-quiet performance.',
+        specs: ['Premium luxury finish', 'Quiet whisper technology', 'Body-safe silicone'] },
+
+      { name: 'LELO Sona 3', price: 0,
+        images: ['lelo-sona-3-cruise.jpg','lelo-sona-3-cream.jpg','lelo-sona-3-purple.jpg'],
+        desc: 'Sonic wave stimulation in an elegant, rechargeable design. Shown in Cruise, Cream and Purple.',
+        specs: ['Sonic wave technology', '100% waterproof', 'Rechargeable battery'] },
+
+      { name: 'LELO Nea 3', price: 0, images: ['lelo-nea-3.jpg'],
+        desc: 'Discreet palm-sized vibrator with powerful performance.',
+        specs: ['Discreet palm size', 'Silky silicone body', 'Powerful vibrations'] },
+
+      { name: 'Mina Bullet', price: 0, images: ['mina-bullet.jpg'],
+        desc: 'Compact bullet for targeted, precise stimulation.',
+        specs: ['Compact bullet size', 'Targeted vibrations', 'Single-button operation'] },
+
+      { name: 'Jessica Rabbit Plus', price: 0, images: ['jessica-rabbit-plus.jpg'],
+        desc: 'Dual-motor rabbit-style vibrator in ultra-soft silicone.',
+        specs: ['Dual stimulation motors', 'Ultra-soft silicone', 'Multiple vibration modes'] },
+
+      { name: 'Jessica Rabbit XXtra', price: 0, images: ['jessica-rabbit-xxtra.jpg'],
+        desc: 'The extra-intense version, quiet and fully waterproof.',
+        specs: ['Extra intensity motors', 'Waterproof design', 'Quiet performance'] },
+
+      { name: 'Dildo Black 8.5 Inch', price: 0, images: ['dildo-black-8.5.jpg'],
+        desc: 'Smooth, flexible and firm, with a secure suction base.',
+        specs: ['Silky smooth finish', 'Flexible yet firm core', 'Suction cup base'] },
+
+      { name: 'Dildo Black 9.5 Inch', price: 0, images: ['dildo-black-9.5.jpg'],
+        desc: 'Extra-long length with a smooth texture and strong suction base.',
+        specs: ['Extra long length', 'Strong suction cup', 'Smooth texture'] },
+
+      { name: 'Vibrating Dildo 7 Inch', price: 0, images: ['dildo-vibrating-7.jpg'],
+        desc: 'Vibrating core in an ergonomic, body-safe shape.',
+        specs: ['Vibrating core engine', 'Body-safe material', 'Ergonomic shape'] },
+
+      { name: 'Vibrating Dildo 8 Inch', price: 0, images: ['dildo-vibrating-8.jpg'],
+        desc: 'Multi-speed vibration with a soft-touch finish.',
+        specs: ['Multi-speed vibrations', 'Soft touch finish', 'Sturdy suction base'] },
+
+      { name: 'Vibrating Dildo 9 Inch', price: 0, images: ['dildo-vibrating-9.jpg'],
+        desc: 'High-intensity full-length vibration in a waterproof casing.',
+        specs: ['High intensity motor', 'Full length vibration', 'Waterproof casing'] },
+
+      { name: 'Extension 3 Inch', price: 0, images: ['extension-3inch.jpg'],
+        desc: 'Seamless length extension with a comfortable grip.',
+        specs: ['Seamless length extension', 'Comfortable grip', 'Easy to clean'] },
+
+      { name: 'Extension Extra 3 Inch', price: 0, images: ['extension-extra-3inch.jpg','extension-extra-3inch.png'],
+        desc: 'Adds 3 inches with a soft, realistic feel and snug fit.',
+        specs: ['Adds 3 inches', 'Soft realistic feel', 'Snug fit design'] },
+
+      { name: 'Silicone Cuffs', price: 0, images: ['silicone-cuffs.jpg'],
+        desc: 'Soft, adjustable silicone cuffs for playful moments.',
+        specs: ['Soft silicone material', 'Adjustable fit', 'Easy maintenance'] },
+
+      { name: 'Chastity Gladiator', price: 0, images: ['chastity-gladiator.jpg'],
+        desc: 'Lightweight chastity device with a secure locking system.',
+        specs: ['Ergonomic fit', 'Lightweight design', 'Secure locking system'] },
+
+      { name: 'Chastity Corkscrew', price: 0, images: ['chastity-corkscrew.jpg'],
+        desc: 'Unique spiral design that is light, durable and secure.',
+        specs: ['Unique spiral structure', 'Lightweight and durable', 'Secure locking mechanism'] },
+
+      { name: 'Chastity Exhibition', price: 0, images: ['chastity-exhibition.jpg'],
+        desc: 'Clear, ventilated cage with a comfort-fit ring.',
+        specs: ['Clear transparent cage', 'Comfort fit ring', 'Ventilated structure'] },
+
+      { name: 'Bully Boy Flesh', price: 0, images: ['bully-boy-flesh.jpg'],
+        desc: 'Compact toy with a soft, lifelike texture.',
+        specs: ['Soft lifelike texture', 'Compact design', 'Easy to clean'] },
+
+      { name: 'Masturbation Cup', price: 0, images: ['musterbation cup images.jpg','cup.jpg','cup-2.jpg','cup-3.jpg'],
+        desc: 'Discreet cup with a soft textured inner sleeve.',
+        specs: ['Ergonomic grip', 'Soft inner sleeve', 'Discreet appearance'] },
+
+      { name: 'Loving Joy Real Feel Male Masturbator', price: 0, images: ['Loving_Joy_Real_Feel_Pussy_Male_Masturbator.jpg'],
+        desc: 'Ultra-realistic texture in a compact handheld design.',
+        specs: ['Ultra-realistic texture', 'Compact handheld unit', 'Simple cleaning'] },
+
+      { name: 'Pussy Stroker', price: 0, images: ['pussy-stroker.jpg'],
+        desc: 'Flexible ribbed sleeve for a textured, easy-care experience.',
+        specs: ['Flexible sleeve', 'Ribbed inner texture', 'Easy maintenance'] },
+
+      { name: 'Doc Johnson Blow Job Gel', price: 0, images: ['doc-johnson-blow-job-gel.jpg'],
+        desc: 'Flavoured oral gel with a desensitizing formula.',
+        specs: ['Desensitizing formula', 'Pleasant flavor', 'Easy dispensing'] }
+    ];
+
+    /* ---------- Code below does the work. No need to edit. ---------- */
+    const imgUrl = f => IMG_FOLDER + encodeURIComponent(f);
+    const money = n => CURRENCY + Number(n).toFixed(2);
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const hideBroken = img => { img.onerror = () => { img.style.visibility = 'hidden'; }; };
+
+    const grid = document.getElementById('productGrid');
+    products.forEach((p, i) => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.innerHTML =
+        '<div class="image-wrapper"><img src="' + imgUrl(p.images[0]) + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
+        '<div class="product-info"><h3>' + esc(p.name) + '</h3><p>' + esc(p.desc) + '</p></div>' +
+        '<div class="product-meta"><span class="price">' + money(p.price) + '</span><button class="view-btn">View</button></div>';
+      hideBroken(card.querySelector('img'));
+      card.addEventListener('click', () => openModal(i));
+      grid.appendChild(card);
+    });
+
+    const modal = document.getElementById('productModal');
+    const mImage = document.getElementById('mImage');
+    const mThumbs = document.getElementById('mThumbs');
+
+    function openModal(i) {
+      const p = products[i];
+      document.getElementById('mTitle').textContent = p.name;
+      document.getElementById('mPrice').textContent = money(p.price);
+      document.getElementById('mDesc').textContent = p.desc;
+      document.getElementById('mSpecs').innerHTML = p.specs.map(s => '<li>✓ ' + esc(s) + '</li>').join('');
+
+      const show = f => { mImage.style.visibility = 'visible'; mImage.src = imgUrl(f); mImage.alt = p.name; };
+      hideBroken(mImage);
+      show(p.images[0]);
+
+      mThumbs.innerHTML = '';
+      if (p.images.length > 1) {
+        p.images.forEach((f, n) => {
+          const b = document.createElement('button');
+          b.innerHTML = '<img src="' + imgUrl(f) + '" alt="">';
+          if (n === 0) b.className = 'on';
+          b.addEventListener('click', () => {
+            mThumbs.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+            b.classList.add('on');
+            show(f);
+          });
+          mThumbs.appendChild(b);
+        });
+      }
+      modal.classList.add('active');
+    }
+
+    function closeModal() { modal.classList.remove('active'); }
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
