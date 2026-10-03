@@ -176,6 +176,9 @@
       }
       .modal-details h2 { font-size: 1.15rem; }
     }
+      .site-foot { text-align: center; padding: 10px 20px calc(48px + env(safe-area-inset-bottom)); color: #86868b; font-size: .85rem; }
+    .site-foot a { display: inline-block; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.2); padding: 12px 22px; border-radius: 24px; font-weight: 500; margin-top: 8px; }
+    .site-foot a:hover { background: rgba(255,255,255,.1); }
   </style>
 </head>
 <body>
@@ -201,6 +204,11 @@
   <main class="catalog-container">
     <div class="product-grid" id="productGrid"></div>
   </main>
+
+  <footer class="site-foot">
+    <div>Follow us for new arrivals</div>
+    <a href="https://www.instagram.com/pleazure8/" target="_blank" rel="noopener">Follow us on Instagram @pleazure8</a>
+  </footer>
 
   <!-- Product popup -->
   <div class="overlay" id="productModal">
@@ -312,7 +320,31 @@
         specs: ['5 pack', 'Flavoured gel', 'Easy dispensing'] },
       { slug: 'cleanse-toy-cleaner-250ml', name: 'Loving Joy Cleanse Toy Cleaner 250ml', price: 6.69,
         desc: 'Gentle everyday cleaner to keep your toys fresh and hygienic.',
-        specs: ['Toy cleaner', '250ml bottle', 'Everyday use'] }
+        specs: ['Toy cleaner', '250ml bottle', 'Everyday use'] },
+      { slug: 'lelo-sona-3-cruise-black', name: 'LELO Sona 3 Cruise, Black', price: 169.99,
+        desc: 'Sonic wave clitoral massager from LELO in Cruise Black.',
+        specs: ['Sonic wave technology', 'Rechargeable', 'Luxury LELO finish'] },
+      { slug: 'lelo-enigma-black', name: 'LELO Enigma, Black', price: 199.99,
+        desc: 'Premium dual-stimulation massager from LELO in black.',
+        specs: ['Dual stimulation', 'Rechargeable', 'Luxury LELO finish'] },
+      { slug: 'lelo-tiani-3-couples-massager', name: 'LELO Tiani 3 Couples Massager, Cerise', price: 169.99,
+        desc: 'Couples massager from LELO, designed to be shared.',
+        specs: ['Made for couples', 'Rechargeable', 'Luxury LELO finish'] },
+      { slug: 'mina-echo-strapless-strap-on', name: 'Mina Echo Remote Vibrating Strapless Strap-On', price: 89.99,
+        desc: 'Strapless strap-on with vibration and a remote control.',
+        specs: ['Strapless design', 'Vibrating', 'Remote control'] },
+      { slug: 'remote-love-egg-vibrator', name: 'Loving Joy Remote Love Egg Vibrator', price: 49.99,
+        desc: 'Wearable vibrating egg with a remote control.',
+        specs: ['Remote control', 'Egg shaped', 'Discreet to use'] },
+      { slug: 'rose-licking-tongue-vibrator', name: 'Loving Joy Rose Licking Tongue Clitoral Vibrator', price: 37.99,
+        desc: 'Rose-style clitoral vibrator with a licking tongue motion.',
+        specs: ['Licking tongue motion', 'Rose design', 'Discreet look'] },
+      { slug: 'mina-starlight-silicone-dildo', name: 'Mina Starlight Silicone Dildo', price: 39.99,
+        desc: 'Smooth silicone dildo from the Mina range.',
+        specs: ['Silicone', 'Smooth finish', 'Easy to clean'] },
+      { slug: 'purple-bullet-vibrator-10-function', name: 'Loving Joy 10 Function Purple Bullet Vibrator', price: 13.99,
+        desc: 'Compact bullet vibrator with 10 vibration functions.',
+        specs: ['10 functions', 'Compact bullet size', 'Easy to use'] }
     ];
 
     /* Images: every slug-1, slug-2 ... found in files.js.
