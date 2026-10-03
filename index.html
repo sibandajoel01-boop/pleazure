@@ -235,116 +235,97 @@
   <script>
     /* =====================================================
        PRODUCT LIST - the ONLY place to edit.
-       images: file names inside the /images folder.
-               Add more file names to show more pictures
-               (customers swipe through them).
-       price : number (0 for now)
+       slug  : must match the slug in import-images.js
+       price : supplier suggested RRP (€)
+       Images are picked up automatically from files.js
+       (slug-1.jpg, slug-2.jpg ... made by import-images.js)
        ===================================================== */
     const IMG_FOLDER = 'images/';
     const CURRENCY = '€';
 
     const products = [
-      { name: 'Stallion Delay Creme', price: 0, images: ['Stallion Delay Creme.jpg'],
-        desc: 'Targeted endurance formula, smooth application, refined control.',
-        specs: ['Dermatologically tested formula', 'Fast absorbing texture', 'Plain discreet outer packaging'] },
-      { name: 'Loving Joy 7 Inch Massager', price: 0, images: ['Loving Joy 7 Inch Massager.jpg'],
-        desc: 'Silky body safe silicone, ultra quiet vibration, ergonomic curve.',
-        specs: ['Medical grade silicone', 'USB rechargeable battery', '100% waterproof design'] },
-      { name: 'Velvet Touch Lubricant', price: 0, images: ['Velvet Touch Lubricant.jpg'],
-        desc: 'Silky texture, long lasting glide, gentle skin balance.',
-        specs: ['Water based formula', 'Non-sticky smooth finish', 'Body safe ingredients'] },
-      { name: 'Anal Beads Pink', price: 0, images: ['anal-beads-pink.jpg'],
-        desc: 'Graduated beads in soft pink silicone with an easy-pull loop.',
-        specs: ['Body-safe silicone', 'Flexible graduated design', 'Easy to clean'] },
-      { name: 'Loving Joy Cleanse Toy Cleaner 250ml', price: 0,
-        images: ['N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-1.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-2.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-3.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-4.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-5.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-5-2.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-6.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-7.jpg'],
+      { slug: 'rev-air-light-cup', name: 'Rev-Air Light Reusable Cup', price: 24.99,
+        desc: 'Reusable cup with a soft, light-grip inner sleeve and discreet look.',
+        specs: ['Reusable design', 'Soft textured sleeve', 'Easy to clean'] },
+      { slug: 'rev-air-tight-cup', name: 'Rev-Air Tight Reusable Cup', price: 24.99,
+        desc: 'Reusable cup with a snugger, tighter inner sleeve.',
+        specs: ['Reusable design', 'Snug textured sleeve', 'Easy to clean'] },
+      { slug: 'pussy-stroker', name: 'Real Feel Stroker', price: 14.99,
+        desc: 'Soft, realistic handheld stroker with an internal textured canal.',
+        specs: ['Soft realistic feel', 'Textured inner canal', 'Open-ended for easy cleaning'] },
+      { slug: 'pleasure-stroker', name: 'Real Feel Pleasure Stroker', price: 14.99,
+        desc: 'Realistic stroker with internal texturing, compact and easy to care for.',
+        specs: ['Soft realistic feel', 'Internal texturing', 'Water and silicone lube compatible'] },
+      { slug: 'mighty-3-inch-extension', name: 'Mighty 3 Inch Extension with Ball Loop', price: 17.99,
+        desc: 'Adds length with a secure ball loop for a snug, comfortable fit.',
+        specs: ['Adds 3 inches', 'Ball loop for secure fit', 'Easy to clean'] },
+      { slug: 'extra-3-inch-extension', name: 'Extra 3 Inch Extension', price: 13.99,
+        desc: 'Simple length extension with a soft feel and snug fit.',
+        specs: ['Adds 3 inches', 'Soft feel', 'Easy to clean'] },
+      { slug: 'jessica-rabbit-ultimate-plus', name: 'Jessica Rabbit Ultimate Plus', price: 48.99,
+        desc: 'Rabbit-style vibrator with rotating beads and independent touch-pad control.',
+        specs: ['3 rows of rotating beads', '6 rotation and 6 vibration speeds', 'Waterproof'] },
+      { slug: 'heart-butt-plug-silver', name: 'Heart Shaped Butt Plug, Silver', price: 16.99,
+        desc: 'Smooth metal plug with a heart-shaped base.',
+        specs: ['Smooth metal finish', 'Heart-shaped base', 'Easy to clean'] },
+      { slug: 'silver-butt-plug-small', name: 'Silver Butt Plug, Small', price: 12.99,
+        desc: 'Small, smooth metal plug, a simple place to start.',
+        specs: ['Smooth metal finish', 'Small size', 'Easy to clean'] },
+      { slug: 'triple-ripple-anal-beads', name: 'Triple Ripple Anal Beads, Black', price: 12.99,
+        desc: 'Graduated beads with an easy-pull loop.',
+        specs: ['Graduated bead design', 'Easy-pull loop', 'Easy to clean'] },
+      { slug: 'bondage-rope-black', name: 'Bondage Rope, Black', price: 13.99,
+        desc: 'Soft, flexible rope for bondage play.',
+        specs: ['Soft and flexible', 'Black', 'Easy to store'] },
+      { slug: 'bondage-rope-red', name: 'Bondage Rope, Red', price: 13.99,
+        desc: 'Soft, flexible rope for bondage play.',
+        specs: ['Soft and flexible', 'Red', 'Easy to store'] },
+      { slug: 'silicone-universal-cuffs', name: 'Silicone Universal Cuffs', price: 37.99,
+        desc: 'Soft silicone cuffs with an adjustable, universal fit.',
+        specs: ['Soft silicone', 'Adjustable fit', 'Easy to clean'] },
+      { slug: 'nubuck-choker', name: 'Nubuck Leather Choker with O Ring', price: 24.99,
+        desc: 'Soft nubuck leather choker finished with a metal O ring.',
+        specs: ['Nubuck leather', 'O ring detail', 'Adjustable'] },
+      { slug: 'universal-black-harness', name: 'Universal Black Harness', price: 15.99,
+        desc: 'Adjustable black harness designed to fit most sizes.',
+        specs: ['Adjustable fit', 'Black', 'Universal sizing'] },
+      { slug: 'gladiator-chastity', name: 'Gladiator Male Chastity Device', price: 48.99,
+        desc: 'Male chastity device with a secure locking system.',
+        specs: ['Secure locking system', 'Ergonomic design', 'Easy to clean'] },
+      { slug: 'lubido-water-based-250ml', name: 'Lubido Water Based Lubricant 250ml', price: 9.99,
+        desc: 'Everyday water-based lubricant for smooth, comfortable glide.',
+        specs: ['Water based', '250ml', 'Compatible with most toys'] },
+      { slug: 'lubido-hybrid-250ml', name: 'Lubido Hybrid Moisturising Lubricant 250ml', price: 9.95,
+        desc: 'Water and silicone hybrid formula that stays smooth and moisturising.',
+        specs: ['Hybrid formula', '250ml', 'Long-lasting glide'] },
+      { slug: 'lubido-anal-250ml', name: 'Lubido Anal Lubricant 250ml', price: 9.99,
+        desc: 'Thicker lubricant made for comfortable anal play.',
+        specs: ['Anal formula', '250ml', 'Long-lasting glide'] },
+      { slug: 'nuru-massage-gel', name: "Mr Nori's Magic Gel Nuru Massage Gel", price: 65.99,
+        desc: 'Authentic Nuru massage gel in a large 33oz size.',
+        specs: ['Nuru massage gel', '33oz', 'Large value size'] },
+      { slug: 'stallion-delay-creme', name: 'Stallion Delay Creme 1.5oz', price: 13.99,
+        desc: 'Delay creme for extended performance.',
+        specs: ['1.5oz tube', 'Easy application', 'Discreet packaging'] },
+      { slug: 'good-head-gel-5-pack', name: 'Doc Johnson Good Head Blow Job Gel 5 Pack', price: 25.99,
+        desc: 'Flavoured oral gel in a convenient 5 pack.',
+        specs: ['5 pack', 'Flavoured gel', 'Easy dispensing'] },
+      { slug: 'cleanse-toy-cleaner-250ml', name: 'Loving Joy Cleanse Toy Cleaner 250ml', price: 6.69,
         desc: 'Gentle everyday cleaner to keep your toys fresh and hygienic.',
-        specs: ['Hygienic cleansing formula', 'Safe for all materials', '250ml bottle'] },
-      { name: 'Toy Cleanser Spray', price: 0,
-        images: ['cleanser.jpg','cleanser-1.jpg','cleanser-2.jpg','cleanser-3.jpg','cleanser-4.jpg'],
-        desc: 'Quick-use antibacterial spray for fast, easy toy care.',
-        specs: ['Antibacterial formulation', 'Gentle on materials', 'Convenient spray'] },
-      { name: 'LELO Ako', price: 0, images: ['lelo-ako.jpg'],
-        desc: 'Luxury design with whisper-quiet performance.',
-        specs: ['Premium luxury finish', 'Quiet whisper technology', 'Body-safe silicone'] },
-      { name: 'LELO Sona 3', price: 0,
-        images: ['lelo-sona-3-cruise.jpg','lelo-sona-3-cream.jpg','lelo-sona-3-purple.jpg'],
-        desc: 'Sonic wave stimulation in an elegant, rechargeable design. Swipe to see Cruise, Cream and Purple.',
-        specs: ['Sonic wave technology', '100% waterproof', 'Rechargeable battery'] },
-      { name: 'LELO Nea 3', price: 0, images: ['lelo-nea-3.jpg'],
-        desc: 'Discreet palm-sized vibrator with powerful performance.',
-        specs: ['Discreet palm size', 'Silky silicone body', 'Powerful vibrations'] },
-      { name: 'Mina Bullet', price: 0, images: ['mina-bullet.jpg'],
-        desc: 'Compact bullet for targeted, precise stimulation.',
-        specs: ['Compact bullet size', 'Targeted vibrations', 'Single-button operation'] },
-      { name: 'Jessica Rabbit Plus', price: 0, images: ['jessica-rabbit-plus.jpg'],
-        desc: 'Dual-motor rabbit-style vibrator in ultra-soft silicone.',
-        specs: ['Dual stimulation motors', 'Ultra-soft silicone', 'Multiple vibration modes'] },
-      { name: 'Jessica Rabbit XXtra', price: 0, images: ['jessica-rabbit-xxtra.jpg'],
-        desc: 'The extra-intense version, quiet and fully waterproof.',
-        specs: ['Extra intensity motors', 'Waterproof design', 'Quiet performance'] },
-      { name: 'Dildo Black 8.5 Inch', price: 0, images: ['dildo-black-8.5.jpg'],
-        desc: 'Smooth, flexible and firm, with a secure suction base.',
-        specs: ['Silky smooth finish', 'Flexible yet firm core', 'Suction cup base'] },
-      { name: 'Dildo Black 9.5 Inch', price: 0, images: ['dildo-black-9.5.jpg'],
-        desc: 'Extra-long length with a smooth texture and strong suction base.',
-        specs: ['Extra long length', 'Strong suction cup', 'Smooth texture'] },
-      { name: 'Vibrating Dildo 7 Inch', price: 0, images: ['dildo-vibrating-7.jpg'],
-        desc: 'Vibrating core in an ergonomic, body-safe shape.',
-        specs: ['Vibrating core engine', 'Body-safe material', 'Ergonomic shape'] },
-      { name: 'Vibrating Dildo 8 Inch', price: 0, images: ['dildo-vibrating-8.jpg'],
-        desc: 'Multi-speed vibration with a soft-touch finish.',
-        specs: ['Multi-speed vibrations', 'Soft touch finish', 'Sturdy suction base'] },
-      { name: 'Vibrating Dildo 9 Inch', price: 0, images: ['dildo-vibrating-9.jpg'],
-        desc: 'High-intensity full-length vibration in a waterproof casing.',
-        specs: ['High intensity motor', 'Full length vibration', 'Waterproof casing'] },
-      { name: 'Extension 3 Inch', price: 0, images: ['extension-3inch.jpg'],
-        desc: 'Seamless length extension with a comfortable grip.',
-        specs: ['Seamless length extension', 'Comfortable grip', 'Easy to clean'] },
-      { name: 'Extension Extra 3 Inch', price: 0, images: ['extension-extra-3inch.jpg','extension-extra-3inch.png'],
-        desc: 'Adds 3 inches with a soft, realistic feel and snug fit.',
-        specs: ['Adds 3 inches', 'Soft realistic feel', 'Snug fit design'] },
-      { name: 'Silicone Cuffs', price: 0, images: ['silicone-cuffs.jpg'],
-        desc: 'Soft, adjustable silicone cuffs for playful moments.',
-        specs: ['Soft silicone material', 'Adjustable fit', 'Easy maintenance'] },
-      { name: 'Chastity Gladiator', price: 0, images: ['chastity-gladiator.jpg'],
-        desc: 'Lightweight chastity device with a secure locking system.',
-        specs: ['Ergonomic fit', 'Lightweight design', 'Secure locking system'] },
-      { name: 'Chastity Corkscrew', price: 0, images: ['chastity-corkscrew.jpg'],
-        desc: 'Unique spiral design that is light, durable and secure.',
-        specs: ['Unique spiral structure', 'Lightweight and durable', 'Secure locking mechanism'] },
-      { name: 'Chastity Exhibition', price: 0, images: ['chastity-exhibition.jpg'],
-        desc: 'Clear, ventilated cage with a comfort-fit ring.',
-        specs: ['Clear transparent cage', 'Comfort fit ring', 'Ventilated structure'] },
-      { name: 'Bully Boy Flesh', price: 0, images: ['bully-boy-flesh.jpg'],
-        desc: 'Compact toy with a soft, lifelike texture.',
-        specs: ['Soft lifelike texture', 'Compact design', 'Easy to clean'] },
-      { name: 'Masturbation Cup', price: 0, images: ['musterbation cup images.jpg','cup.jpg','cup-2.jpg','cup-3.jpg'],
-        desc: 'Discreet cup with a soft textured inner sleeve.',
-        specs: ['Ergonomic grip', 'Soft inner sleeve', 'Discreet appearance'] },
-      { name: 'Loving Joy Real Feel Male Masturbator', price: 0, images: ['Loving_Joy_Real_Feel_Pussy_Male_Masturbator.jpg'],
-        desc: 'Ultra-realistic texture in a compact handheld design.',
-        specs: ['Ultra-realistic texture', 'Compact handheld unit', 'Simple cleaning'] },
-      { name: 'Pussy Stroker', price: 0, images: ['pussy-stroker.jpg'],
-        desc: 'Flexible ribbed sleeve for a textured, easy-care experience.',
-        specs: ['Flexible sleeve', 'Ribbed inner texture', 'Easy maintenance'] },
-      { name: 'Doc Johnson Blow Job Gel', price: 0, images: ['doc-johnson-blow-job-gel.jpg'],
-        desc: 'Flavoured oral gel with a desensitizing formula.',
-        specs: ['Desensitizing formula', 'Pleasant flavor', 'Easy dispensing'] }
+        specs: ['Toy cleaner', '250ml bottle', 'Everyday use'] }
     ];
 
-    /* Auto-add extra photos: for a product whose first image is 'lelo-ako.jpg',
-       any file like 'lelo-ako-2.jpg', 'lelo-ako-3.png' in /images is added automatically.
-       The list of files comes from files.js (made by the terminal command). */
+    /* Images: every slug-1, slug-2 ... found in files.js.
+       A product with no photos yet is hidden automatically. */
+    products.forEach(p => { p.images = [p.slug + '-1.jpg']; });
     if (typeof FILES !== 'undefined') {
-      products.forEach(p => {
-        const first = p.images[0];
-        const base = first.replace(/\.[^.]+$/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const re = new RegExp('^' + base + '[-_ ]?(\\d+)\\.(jpe?g|png|webp|avif)$', 'i');
-        const extra = FILES.filter(f => re.test(f) && !p.images.includes(f))
+      for (let i = products.length - 1; i >= 0; i--) {
+        const p = products[i];
+        const re = new RegExp('^' + p.slug + '-(\\d+)\\.(jpe?g|png|webp|avif)$', 'i');
+        const found = FILES.filter(f => re.test(f))
           .sort((a, b) => a.match(re)[1] - b.match(re)[1]);
-        p.images = p.images.concat(extra);
-      });
+        if (found.length) p.images = found; else products.splice(i, 1);
+      }
     }
 
     /* ---------- Everything below runs the site. No need to edit. ---------- */
