@@ -2,80 +2,190 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
   <title>PLEAZURE ONLINE | Elevated Wellness</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
     body {
-      background-color: #0b0b0b; color: #f5f5f7;
+      background: #0b0b0b; color: #f5f5f7;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.5; padding-top: 60px; -webkit-font-smoothing: antialiased;
     }
+    body.lock { overflow: hidden; }
+    button { font-family: inherit; }
+
+    /* NAV */
     nav {
-      position: fixed; top: 0; width: 100%; height: 60px;
-      background: rgba(11,11,11,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: flex; justify-content: space-between; align-items: center; padding: 0 24px; z-index: 1000;
+      position: fixed; top: 0; left: 0; right: 0; height: 60px;
+      background: rgba(11,11,11,.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 max(20px, env(safe-area-inset-left)); z-index: 1000;
     }
     .brand-logo { font-size: .95rem; letter-spacing: .25em; font-weight: 500; text-transform: uppercase; color: #fff; text-decoration: none; }
-    .cart-badge { font-size: .8rem; color: #a1a1a6; }
-    .hero { text-align: center; padding: 50px 20px 30px; max-width: 800px; margin: 0 auto; }
-    .hero h1 { font-size: clamp(2rem,5vw,3.2rem); font-weight: 300; letter-spacing: .12em; margin-bottom: 12px; text-transform: uppercase; }
-    .hero p { color: #a1a1a6; font-size: clamp(.9rem,3.5vw,1.1rem); font-weight: 300; }
-    .trust-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; margin-top: 20px; font-size: .78rem; color: #86868b; letter-spacing: .05em; text-transform: uppercase; }
-    .catalog-container { max-width: 1100px; margin: 0 auto; padding: 20px 20px 80px; }
-    .product-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .ship-note { font-size: .78rem; color: #a1a1a6; }
+    .cart-btn {
+      position: relative; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      color: #fff; height: 40px; padding: 0 16px; border-radius: 20px; font-size: .8rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+    }
+    .cart-count {
+      background: #fff; color: #000; min-width: 20px; height: 20px; border-radius: 10px;
+      font-size: .7rem; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px;
+    }
+
+    /* HERO */
+    .hero { text-align: center; padding: 44px 20px 24px; max-width: 800px; margin: 0 auto; }
+    .hero h1 { font-size: clamp(1.7rem, 6vw, 3.2rem); font-weight: 300; letter-spacing: .12em; margin-bottom: 12px; text-transform: uppercase; }
+    .hero p { color: #a1a1a6; font-size: clamp(.85rem, 3.5vw, 1.1rem); font-weight: 300; }
+    .trust-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; font-size: .72rem; color: #86868b; letter-spacing: .05em; text-transform: uppercase; }
+
+    /* GRID: 4 desktop / 3 tablet / 2 phone */
+    .catalog-container { max-width: 1280px; margin: 0 auto; padding: 16px 20px 80px; }
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
     .product-card {
-      background: #141416; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 16px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      transition: transform .2s ease, border-color .2s ease; cursor: pointer;
+      background: #141416; border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 12px;
+      display: flex; flex-direction: column; cursor: pointer; min-width: 0;
+      transition: transform .2s ease, border-color .2s ease;
     }
-    .product-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-4px); }
-    .image-wrapper {
-      width: 100%; aspect-ratio: 1/1; background: #fff; border-radius: 12px; overflow: hidden;
-      margin-bottom: 16px; display: flex; align-items: center; justify-content: center; padding: 12px;
+    @media (hover: hover) { .product-card:hover { border-color: rgba(255,255,255,.25); transform: translateY(-4px); } }
+
+    /* IMAGE SLIDER (used on cards and in the popup) */
+    .media { position: relative; width: 100%; aspect-ratio: 1/1; background: #fff; border-radius: 12px; overflow: hidden; }
+    .track { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .track::-webkit-scrollbar { display: none; }
+    .slide { flex: 0 0 100%; scroll-snap-align: center; scroll-snap-stop: always; display: flex; align-items: center; justify-content: center; padding: 10px; }
+    .slide img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+    .dots { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; pointer-events: none; }
+    .dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(0,0,0,.2); transition: all .2s; }
+    .dots i.on { background: #000; width: 14px; border-radius: 3px; }
+    .arr {
+      position: absolute; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%;
+      border: none; background: rgba(0,0,0,.55); color: #fff; font-size: 1rem; cursor: pointer; display: none;
     }
-    .image-wrapper img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-    .product-info h3 { font-size: 1rem; font-weight: 500; color: #fff; margin-bottom: 6px; }
-    .product-info p { font-size: .82rem; color: #86868b; margin-bottom: 16px; line-height: 1.4; }
-    .product-meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 8px; }
+    .arr.l { left: 6px; } .arr.r { right: 6px; }
+    @media (hover: hover) { .media:hover .arr { display: block; } }
+
+    .product-info { padding: 12px 2px 0; }
+    .product-info h3 { font-size: .95rem; font-weight: 500; color: #fff; margin-bottom: 4px; line-height: 1.3; }
+    .product-info p {
+      font-size: .8rem; color: #86868b; line-height: 1.4; margin-bottom: 12px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .product-meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 0 2px; gap: 8px; }
     .price { font-size: 1rem; font-weight: 600; color: #fff; }
-    .view-btn { background: #fff; color: #000; border: none; padding: 8px 18px; border-radius: 20px; font-size: .78rem; font-weight: 600; cursor: pointer; transition: background .2s ease; }
-    .view-btn:hover { background: #e5e5ea; }
-
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none;
-      transition: opacity .3s ease; z-index: 2000; padding: 20px; overflow-y: auto;
+    .add-btn {
+      background: #fff; color: #000; border: none; padding: 0 16px; height: 36px; border-radius: 20px;
+      font-size: .78rem; font-weight: 600; cursor: pointer; transition: background .2s, transform .1s;
     }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .add-btn:hover { background: #e5e5ea; }
+    .add-btn:active { transform: scale(.95); }
+
+    /* PRODUCT POPUP */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      opacity: 0; pointer-events: none; transition: opacity .3s ease; z-index: 2000;
+    }
+    .overlay.active { opacity: 1; pointer-events: auto; }
+    #productModal { display: flex; align-items: center; justify-content: center; padding: 20px; }
     .modal-content {
-      background: #18181a; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
-      max-width: 700px; width: 100%; padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative;
+      background: #18181a; border: 1px solid rgba(255,255,255,.12); border-radius: 20px;
+      max-width: 760px; width: 100%; max-height: 92dvh; overflow-y: auto; padding: 26px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative;
+      transform: translateY(24px); transition: transform .3s ease;
     }
-    .modal-close { position: absolute; top: 16px; right: 18px; background: rgba(255,255,255,0.1); border: none; color: #a1a1a6; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; z-index: 2; }
-    .modal-image-wrapper { background: #fff; border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: center; }
-    .modal-image-wrapper img { max-width: 100%; max-height: 240px; object-fit: contain; }
-    .thumbs { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .thumbs button { width: 48px; height: 48px; background: #fff; border: 2px solid transparent; border-radius: 8px; padding: 3px; cursor: pointer; }
-    .thumbs button.on { border-color: #888; }
-    .thumbs img { width: 100%; height: 100%; object-fit: contain; display: block; }
-    .modal-details h2 { font-size: 1.3rem; font-weight: 500; margin-bottom: 8px; padding-right: 30px; }
-    .modal-price { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 14px; }
-    .modal-desc { font-size: .85rem; color: #a1a1a6; line-height: 1.5; margin-bottom: 18px; }
-    .modal-specs { list-style: none; font-size: .8rem; color: #86868b; margin-bottom: 22px; }
+    .overlay.active .modal-content { transform: none; }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.55); border: none; color: #fff;
+      width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; z-index: 5;
+    }
+    .modal-details { display: flex; flex-direction: column; }
+    .modal-details h2 { font-size: 1.3rem; font-weight: 500; margin-bottom: 8px; padding-right: 36px; line-height: 1.3; }
+    .modal-price { font-size: 1.1rem; font-weight: 600; margin-bottom: 14px; }
+    .modal-desc { font-size: .88rem; color: #a1a1a6; line-height: 1.55; margin-bottom: 16px; }
+    .modal-specs { list-style: none; font-size: .82rem; color: #86868b; margin-bottom: 22px; }
     .modal-specs li { margin-bottom: 6px; }
-    .buy-now-btn { width: 100%; background: #fff; color: #000; border: none; padding: 12px; border-radius: 24px; font-size: .85rem; font-weight: 600; letter-spacing: .05em; cursor: pointer; text-transform: uppercase; }
+    .buy-btn {
+      width: 100%; background: #fff; color: #000; border: none; height: 48px; border-radius: 24px;
+      font-size: .85rem; font-weight: 600; letter-spacing: .05em; cursor: pointer; text-transform: uppercase; margin-top: auto;
+    }
 
-    @media (max-width: 850px) { .product-grid { grid-template-columns: repeat(2,1fr); gap: 16px; } .modal-content { grid-template-columns: 1fr; } }
-    @media (max-width: 550px) { .product-grid { grid-template-columns: 1fr; } }
+    /* CART DRAWER */
+    #scrim { z-index: 2500; }
+    #drawer {
+      position: fixed; top: 0; right: 0; height: 100dvh; width: min(420px, 100%); background: #141416;
+      border-left: 1px solid rgba(255,255,255,.1); z-index: 2600; display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    }
+    #drawer.open { transform: none; }
+    .d-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .d-head h2 { font-size: 1rem; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; }
+    .d-close { background: rgba(255,255,255,.1); border: none; color: #fff; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; }
+    #cartItems { flex: 1; overflow-y: auto; padding: 8px 20px; }
+    .empty { text-align: center; color: #86868b; padding: 60px 0; font-size: .9rem; }
+    .c-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+    .c-img { width: 64px; height: 64px; flex: none; background: #fff; border-radius: 10px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    .c-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .c-info { flex: 1; min-width: 0; }
+    .c-name { font-size: .88rem; font-weight: 500; line-height: 1.3; margin-bottom: 2px; }
+    .c-price { font-size: .82rem; color: #a1a1a6; margin-bottom: 8px; }
+    .qty { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,.07); border-radius: 18px; }
+    .qty button { width: 34px; height: 34px; border: none; background: none; color: #fff; font-size: 1.05rem; cursor: pointer; }
+    .qty span { min-width: 22px; text-align: center; font-size: .85rem; }
+    .c-rm { background: none; border: none; color: #86868b; font-size: .75rem; cursor: pointer; align-self: flex-start; padding: 6px; }
+    .d-foot { padding: 18px 20px calc(18px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,.08); }
+    .total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+    .note { font-size: .74rem; color: #86868b; margin-bottom: 14px; }
+    .d-foot .buy-btn { margin-top: 0; }
+    .d-foot .buy-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    /* TOAST */
+    #toast {
+      position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 30px);
+      background: #fff; color: #000; padding: 12px 22px; border-radius: 24px; font-size: .85rem; font-weight: 600;
+      opacity: 0; pointer-events: none; transition: all .3s; z-index: 3000; white-space: nowrap;
+    }
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* TABLET */
+    @media (max-width: 1000px) { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+
+    /* PHONE */
+    @media (max-width: 700px) {
+      .ship-note { display: none; }
+      .hero { padding: 32px 16px 16px; }
+      .catalog-container { padding: 12px 10px 70px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .product-card { padding: 8px; border-radius: 14px; }
+      .media { border-radius: 10px; }
+      .product-info { padding-top: 10px; }
+      .product-info h3 { font-size: .82rem; }
+      .product-info p { display: none; }
+      .product-info h3 { margin-bottom: 8px; }
+      .price { font-size: .9rem; }
+      .add-btn { padding: 0 14px; height: 38px; }
+
+      #productModal { align-items: flex-end; padding: 0; }
+      .modal-content {
+        grid-template-columns: 1fr; border-radius: 22px 22px 0 0; max-height: 94dvh; padding: 14px 14px calc(18px + env(safe-area-inset-bottom));
+        gap: 16px; border-bottom: none; transform: translateY(100%);
+      }
+      .modal-details h2 { font-size: 1.15rem; }
+    }
   </style>
 </head>
 <body>
 
   <nav>
     <a href="#" class="brand-logo">PLEAZURE</a>
-    <div class="cart-badge">Discreet Shipping Guarantee</div>
+    <div class="nav-right">
+      <span class="ship-note">Discreet Shipping Guarantee</span>
+      <button class="cart-btn" id="openCart" aria-label="Open cart">Cart <span class="cart-count" id="cartCount">0</span></button>
+    </div>
   </nav>
 
   <section class="hero">
@@ -92,29 +202,42 @@
     <div class="product-grid" id="productGrid"></div>
   </main>
 
-  <div class="modal-overlay" id="productModal">
+  <!-- Product popup -->
+  <div class="overlay" id="productModal">
     <div class="modal-content">
       <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-      <div>
-        <div class="modal-image-wrapper"><img id="mImage" src="" alt=""></div>
-        <div class="thumbs" id="mThumbs"></div>
-      </div>
+      <div id="mMedia"></div>
       <div class="modal-details">
         <h2 id="mTitle"></h2>
         <div class="modal-price" id="mPrice"></div>
         <p class="modal-desc" id="mDesc"></p>
         <ul class="modal-specs" id="mSpecs"></ul>
-        <button class="buy-now-btn" onclick="alert('Cart coming soon')">Add to Cart</button>
+        <button class="buy-btn" id="mAdd">Add to Cart</button>
       </div>
     </div>
   </div>
 
+  <!-- Cart drawer -->
+  <div class="overlay" id="scrim"></div>
+  <aside id="drawer" aria-label="Shopping cart">
+    <div class="d-head"><h2>Your Cart</h2><button class="d-close" id="closeCart" aria-label="Close cart">✕</button></div>
+    <div id="cartItems"></div>
+    <div class="d-foot">
+      <div class="total"><span>Total</span><span id="cartTotal">€0.00</span></div>
+      <p class="note">Discreet plain packaging. Shipping calculated at checkout.</p>
+      <button class="buy-btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+  <div id="toast"></div>
+
+  <script src="files.js" onerror="void 0"></script>
   <script>
     /* =====================================================
-       PRODUCT LIST  -  this is the ONLY place to edit.
-       To add a product, copy one line and change it.
-       images: file names inside the /images folder
-               (first one is the main picture)
+       PRODUCT LIST - the ONLY place to edit.
+       images: file names inside the /images folder.
+               Add more file names to show more pictures
+               (customers swipe through them).
        price : number (0 for now)
        ===================================================== */
     const IMG_FOLDER = 'images/';
@@ -124,174 +247,234 @@
       { name: 'Stallion Delay Creme', price: 0, images: ['Stallion Delay Creme.jpg'],
         desc: 'Targeted endurance formula, smooth application, refined control.',
         specs: ['Dermatologically tested formula', 'Fast absorbing texture', 'Plain discreet outer packaging'] },
-
       { name: 'Loving Joy 7 Inch Massager', price: 0, images: ['Loving Joy 7 Inch Massager.jpg'],
         desc: 'Silky body safe silicone, ultra quiet vibration, ergonomic curve.',
         specs: ['Medical grade silicone', 'USB rechargeable battery', '100% waterproof design'] },
-
       { name: 'Velvet Touch Lubricant', price: 0, images: ['Velvet Touch Lubricant.jpg'],
         desc: 'Silky texture, long lasting glide, gentle skin balance.',
         specs: ['Water based formula', 'Non-sticky smooth finish', 'Body safe ingredients'] },
-
       { name: 'Anal Beads Pink', price: 0, images: ['anal-beads-pink.jpg'],
         desc: 'Graduated beads in soft pink silicone with an easy-pull loop.',
         specs: ['Body-safe silicone', 'Flexible graduated design', 'Easy to clean'] },
-
       { name: 'Loving Joy Cleanse Toy Cleaner 250ml', price: 0,
         images: ['N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-1.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-2.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-3.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-4.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-5.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-5-2.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-6.jpg','N12687-loving-joy-cleanse-sex-toy-cleaner-250ml-7.jpg'],
-        desc: 'Gentle everyday cleaner designed to keep your toys fresh and hygienic.',
+        desc: 'Gentle everyday cleaner to keep your toys fresh and hygienic.',
         specs: ['Hygienic cleansing formula', 'Safe for all materials', '250ml bottle'] },
-
       { name: 'Toy Cleanser Spray', price: 0,
         images: ['cleanser.jpg','cleanser-1.jpg','cleanser-2.jpg','cleanser-3.jpg','cleanser-4.jpg'],
         desc: 'Quick-use antibacterial spray for fast, easy toy care.',
         specs: ['Antibacterial formulation', 'Gentle on materials', 'Convenient spray'] },
-
       { name: 'LELO Ako', price: 0, images: ['lelo-ako.jpg'],
         desc: 'Luxury design with whisper-quiet performance.',
         specs: ['Premium luxury finish', 'Quiet whisper technology', 'Body-safe silicone'] },
-
       { name: 'LELO Sona 3', price: 0,
         images: ['lelo-sona-3-cruise.jpg','lelo-sona-3-cream.jpg','lelo-sona-3-purple.jpg'],
-        desc: 'Sonic wave stimulation in an elegant, rechargeable design. Shown in Cruise, Cream and Purple.',
+        desc: 'Sonic wave stimulation in an elegant, rechargeable design. Swipe to see Cruise, Cream and Purple.',
         specs: ['Sonic wave technology', '100% waterproof', 'Rechargeable battery'] },
-
       { name: 'LELO Nea 3', price: 0, images: ['lelo-nea-3.jpg'],
         desc: 'Discreet palm-sized vibrator with powerful performance.',
         specs: ['Discreet palm size', 'Silky silicone body', 'Powerful vibrations'] },
-
       { name: 'Mina Bullet', price: 0, images: ['mina-bullet.jpg'],
         desc: 'Compact bullet for targeted, precise stimulation.',
         specs: ['Compact bullet size', 'Targeted vibrations', 'Single-button operation'] },
-
       { name: 'Jessica Rabbit Plus', price: 0, images: ['jessica-rabbit-plus.jpg'],
         desc: 'Dual-motor rabbit-style vibrator in ultra-soft silicone.',
         specs: ['Dual stimulation motors', 'Ultra-soft silicone', 'Multiple vibration modes'] },
-
       { name: 'Jessica Rabbit XXtra', price: 0, images: ['jessica-rabbit-xxtra.jpg'],
         desc: 'The extra-intense version, quiet and fully waterproof.',
         specs: ['Extra intensity motors', 'Waterproof design', 'Quiet performance'] },
-
       { name: 'Dildo Black 8.5 Inch', price: 0, images: ['dildo-black-8.5.jpg'],
         desc: 'Smooth, flexible and firm, with a secure suction base.',
         specs: ['Silky smooth finish', 'Flexible yet firm core', 'Suction cup base'] },
-
       { name: 'Dildo Black 9.5 Inch', price: 0, images: ['dildo-black-9.5.jpg'],
         desc: 'Extra-long length with a smooth texture and strong suction base.',
         specs: ['Extra long length', 'Strong suction cup', 'Smooth texture'] },
-
       { name: 'Vibrating Dildo 7 Inch', price: 0, images: ['dildo-vibrating-7.jpg'],
         desc: 'Vibrating core in an ergonomic, body-safe shape.',
         specs: ['Vibrating core engine', 'Body-safe material', 'Ergonomic shape'] },
-
       { name: 'Vibrating Dildo 8 Inch', price: 0, images: ['dildo-vibrating-8.jpg'],
         desc: 'Multi-speed vibration with a soft-touch finish.',
         specs: ['Multi-speed vibrations', 'Soft touch finish', 'Sturdy suction base'] },
-
       { name: 'Vibrating Dildo 9 Inch', price: 0, images: ['dildo-vibrating-9.jpg'],
         desc: 'High-intensity full-length vibration in a waterproof casing.',
         specs: ['High intensity motor', 'Full length vibration', 'Waterproof casing'] },
-
       { name: 'Extension 3 Inch', price: 0, images: ['extension-3inch.jpg'],
         desc: 'Seamless length extension with a comfortable grip.',
         specs: ['Seamless length extension', 'Comfortable grip', 'Easy to clean'] },
-
       { name: 'Extension Extra 3 Inch', price: 0, images: ['extension-extra-3inch.jpg','extension-extra-3inch.png'],
         desc: 'Adds 3 inches with a soft, realistic feel and snug fit.',
         specs: ['Adds 3 inches', 'Soft realistic feel', 'Snug fit design'] },
-
       { name: 'Silicone Cuffs', price: 0, images: ['silicone-cuffs.jpg'],
         desc: 'Soft, adjustable silicone cuffs for playful moments.',
         specs: ['Soft silicone material', 'Adjustable fit', 'Easy maintenance'] },
-
       { name: 'Chastity Gladiator', price: 0, images: ['chastity-gladiator.jpg'],
         desc: 'Lightweight chastity device with a secure locking system.',
         specs: ['Ergonomic fit', 'Lightweight design', 'Secure locking system'] },
-
       { name: 'Chastity Corkscrew', price: 0, images: ['chastity-corkscrew.jpg'],
         desc: 'Unique spiral design that is light, durable and secure.',
         specs: ['Unique spiral structure', 'Lightweight and durable', 'Secure locking mechanism'] },
-
       { name: 'Chastity Exhibition', price: 0, images: ['chastity-exhibition.jpg'],
         desc: 'Clear, ventilated cage with a comfort-fit ring.',
         specs: ['Clear transparent cage', 'Comfort fit ring', 'Ventilated structure'] },
-
       { name: 'Bully Boy Flesh', price: 0, images: ['bully-boy-flesh.jpg'],
         desc: 'Compact toy with a soft, lifelike texture.',
         specs: ['Soft lifelike texture', 'Compact design', 'Easy to clean'] },
-
       { name: 'Masturbation Cup', price: 0, images: ['musterbation cup images.jpg','cup.jpg','cup-2.jpg','cup-3.jpg'],
         desc: 'Discreet cup with a soft textured inner sleeve.',
         specs: ['Ergonomic grip', 'Soft inner sleeve', 'Discreet appearance'] },
-
       { name: 'Loving Joy Real Feel Male Masturbator', price: 0, images: ['Loving_Joy_Real_Feel_Pussy_Male_Masturbator.jpg'],
         desc: 'Ultra-realistic texture in a compact handheld design.',
         specs: ['Ultra-realistic texture', 'Compact handheld unit', 'Simple cleaning'] },
-
       { name: 'Pussy Stroker', price: 0, images: ['pussy-stroker.jpg'],
         desc: 'Flexible ribbed sleeve for a textured, easy-care experience.',
         specs: ['Flexible sleeve', 'Ribbed inner texture', 'Easy maintenance'] },
-
       { name: 'Doc Johnson Blow Job Gel', price: 0, images: ['doc-johnson-blow-job-gel.jpg'],
         desc: 'Flavoured oral gel with a desensitizing formula.',
         specs: ['Desensitizing formula', 'Pleasant flavor', 'Easy dispensing'] }
     ];
 
-    /* ---------- Code below does the work. No need to edit. ---------- */
+    /* Auto-add extra photos: for a product whose first image is 'lelo-ako.jpg',
+       any file like 'lelo-ako-2.jpg', 'lelo-ako-3.png' in /images is added automatically.
+       The list of files comes from files.js (made by the terminal command). */
+    if (typeof FILES !== 'undefined') {
+      products.forEach(p => {
+        const first = p.images[0];
+        const base = first.replace(/\.[^.]+$/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const re = new RegExp('^' + base + '[-_ ]?(\\d+)\\.(jpe?g|png|webp|avif)$', 'i');
+        const extra = FILES.filter(f => re.test(f) && !p.images.includes(f))
+          .sort((a, b) => a.match(re)[1] - b.match(re)[1]);
+        p.images = p.images.concat(extra);
+      });
+    }
+
+    /* ---------- Everything below runs the site. No need to edit. ---------- */
+    const $ = id => document.getElementById(id);
     const imgUrl = f => IMG_FOLDER + encodeURIComponent(f);
     const money = n => CURRENCY + Number(n).toFixed(2);
     const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const hideBroken = img => { img.onerror = () => { img.style.visibility = 'hidden'; }; };
 
-    const grid = document.getElementById('productGrid');
+    /* Swipeable image slider */
+    function buildSlider(p, lazy) {
+      const media = document.createElement('div');
+      media.className = 'media';
+      const track = document.createElement('div');
+      track.className = 'track';
+      p.images.forEach(f => {
+        const s = document.createElement('div');
+        s.className = 'slide';
+        const im = document.createElement('img');
+        im.src = imgUrl(f); im.alt = p.name; im.draggable = false;
+        if (lazy) im.loading = 'lazy';
+        im.onerror = () => { im.style.visibility = 'hidden'; };
+        s.appendChild(im); track.appendChild(s);
+      });
+      media.appendChild(track);
+
+      if (p.images.length > 1) {
+        const dots = document.createElement('div');
+        dots.className = 'dots';
+        dots.innerHTML = p.images.map((_, i) => '<i class="' + (i === 0 ? 'on' : '') + '"></i>').join('');
+        media.appendChild(dots);
+        track.addEventListener('scroll', () => {
+          const i = Math.round(track.scrollLeft / track.clientWidth);
+          [...dots.children].forEach((d, n) => d.classList.toggle('on', n === i));
+        }, { passive: true });
+        [['l', '‹', -1], ['r', '›', 1]].forEach(([cls, ch, dir]) => {
+          const b = document.createElement('button');
+          b.className = 'arr ' + cls; b.textContent = ch; b.setAttribute('aria-label', dir < 0 ? 'Previous image' : 'Next image');
+          b.addEventListener('click', e => { e.stopPropagation(); track.scrollBy({ left: dir * track.clientWidth, behavior: 'smooth' }); });
+          media.appendChild(b);
+        });
+      }
+      return media;
+    }
+
+    /* Cards */
+    const grid = $('productGrid');
     products.forEach((p, i) => {
       const card = document.createElement('article');
       card.className = 'product-card';
-      card.innerHTML =
-        '<div class="image-wrapper"><img src="' + imgUrl(p.images[0]) + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
+      card.appendChild(buildSlider(p, true));
+      card.insertAdjacentHTML('beforeend',
         '<div class="product-info"><h3>' + esc(p.name) + '</h3><p>' + esc(p.desc) + '</p></div>' +
-        '<div class="product-meta"><span class="price">' + money(p.price) + '</span><button class="view-btn">View</button></div>';
-      hideBroken(card.querySelector('img'));
+        '<div class="product-meta"><span class="price">' + money(p.price) + '</span><button class="add-btn">Add</button></div>');
+      card.querySelector('.add-btn').addEventListener('click', e => { e.stopPropagation(); addToCart(i); });
       card.addEventListener('click', () => openModal(i));
       grid.appendChild(card);
     });
 
-    const modal = document.getElementById('productModal');
-    const mImage = document.getElementById('mImage');
-    const mThumbs = document.getElementById('mThumbs');
-
+    /* Product popup */
+    const modal = $('productModal');
+    let current = 0;
     function openModal(i) {
+      current = i;
       const p = products[i];
-      document.getElementById('mTitle').textContent = p.name;
-      document.getElementById('mPrice').textContent = money(p.price);
-      document.getElementById('mDesc').textContent = p.desc;
-      document.getElementById('mSpecs').innerHTML = p.specs.map(s => '<li>✓ ' + esc(s) + '</li>').join('');
-
-      const show = f => { mImage.style.visibility = 'visible'; mImage.src = imgUrl(f); mImage.alt = p.name; };
-      hideBroken(mImage);
-      show(p.images[0]);
-
-      mThumbs.innerHTML = '';
-      if (p.images.length > 1) {
-        p.images.forEach((f, n) => {
-          const b = document.createElement('button');
-          b.innerHTML = '<img src="' + imgUrl(f) + '" alt="">';
-          if (n === 0) b.className = 'on';
-          b.addEventListener('click', () => {
-            mThumbs.querySelectorAll('button').forEach(x => x.classList.remove('on'));
-            b.classList.add('on');
-            show(f);
-          });
-          mThumbs.appendChild(b);
-        });
-      }
+      $('mMedia').innerHTML = '';
+      $('mMedia').appendChild(buildSlider(p, false));
+      $('mTitle').textContent = p.name;
+      $('mPrice').textContent = money(p.price);
+      $('mDesc').textContent = p.desc;
+      $('mSpecs').innerHTML = p.specs.map(s => '<li>✓ ' + esc(s) + '</li>').join('');
       modal.classList.add('active');
+      document.body.classList.add('lock');
+    }
+    function closeModal() { modal.classList.remove('active'); if (!$('drawer').classList.contains('open')) document.body.classList.remove('lock'); }
+    $('modalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    $('mAdd').addEventListener('click', () => { addToCart(current); closeModal(); });
+
+    /* Cart */
+    let cart = {};
+    try { cart = JSON.parse(localStorage.getItem('pleazure_cart')) || {}; } catch (e) {}
+    const saveCart = () => { try { localStorage.setItem('pleazure_cart', JSON.stringify(cart)); } catch (e) {} };
+
+    function addToCart(i) {
+      cart[i] = (cart[i] || 0) + 1;
+      saveCart(); renderCart(); toast('Added to cart');
+    }
+    function changeQty(i, d) {
+      cart[i] = (cart[i] || 0) + d;
+      if (cart[i] <= 0) delete cart[i];
+      saveCart(); renderCart();
+    }
+    function renderCart() {
+      const ids = Object.keys(cart).filter(i => products[i]);
+      const count = ids.reduce((n, i) => n + cart[i], 0);
+      const total = ids.reduce((n, i) => n + cart[i] * products[i].price, 0);
+      $('cartCount').textContent = count;
+      $('cartTotal').textContent = money(total);
+      $('checkoutBtn').disabled = !count;
+      $('cartItems').innerHTML = ids.length ? ids.map(i => {
+        const p = products[i];
+        return '<div class="c-item"><div class="c-img"><img src="' + imgUrl(p.images[0]) + '" alt=""></div>' +
+          '<div class="c-info"><div class="c-name">' + esc(p.name) + '</div><div class="c-price">' + money(p.price) + '</div>' +
+          '<div class="qty"><button data-i="' + i + '" data-d="-1" aria-label="Less">−</button><span>' + cart[i] + '</span><button data-i="' + i + '" data-d="1" aria-label="More">+</button></div></div>' +
+          '<button class="c-rm" data-i="' + i + '" data-d="remove">Remove</button></div>';
+      }).join('') : '<div class="empty">Your cart is empty</div>';
+    }
+    $('cartItems').addEventListener('click', e => {
+      const b = e.target.closest('button[data-i]'); if (!b) return;
+      const i = b.dataset.i;
+      if (b.dataset.d === 'remove') { delete cart[i]; saveCart(); renderCart(); }
+      else changeQty(i, Number(b.dataset.d));
+    });
+
+    function openCart() { $('drawer').classList.add('open'); $('scrim').classList.add('active'); document.body.classList.add('lock'); }
+    function closeCart() { $('drawer').classList.remove('open'); $('scrim').classList.remove('active'); document.body.classList.remove('lock'); }
+    $('openCart').addEventListener('click', openCart);
+    $('closeCart').addEventListener('click', closeCart);
+    $('scrim').addEventListener('click', closeCart);
+    $('checkoutBtn').addEventListener('click', () => alert('Checkout is coming soon.'));
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeCart(); } });
+
+    let tt;
+    function toast(msg) {
+      const t = $('toast'); t.textContent = msg; t.classList.add('show');
+      clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 1600);
     }
 
-    function closeModal() { modal.classList.remove('active'); }
-    document.getElementById('modalClose').addEventListener('click', closeModal);
-    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    renderCart();
   </script>
 </body>
 </html>
