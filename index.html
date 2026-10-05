@@ -457,43 +457,58 @@
       vatNumber: '',      // your VAT number
       country: ''         // country where your business is registered
     };
+
+    /* =====================================================
+       SHOPIFY CHECKOUT - fill these two lines in when your
+       Shopify store is ready. Leave them empty and the
+       checkout button keeps showing "opening very soon".
+         domain : your store address, like  your-store.myshopify.com
+         token  : the PUBLIC Storefront access token (safe to put here)
+       Never put an Admin API token anywhere on this page.
+       ===================================================== */
+    const SHOPIFY = {
+      domain: '',
+      token: '',
+      apiVersion: '2026-01'
+    };
+
     /* =====================================================
        DELIVERY PRICES AND TIMES, by country.
-       ['Country', cost in euros, 'estimated delivery time', true if import VAT or customs may apply]
+       ['Country', cost in euros, 'estimated delivery time', true if import VAT or customs may apply, 'country code']
        ===================================================== */
     const SHIPPING = [
-      ['Austria', 10.02, '3 to 4 days'],
-      ['Balearic Islands', 99.73, '5 days'],
-      ['Belgium', 6.45, '2 days'],
-      ['Bulgaria', 13.00, '5 to 6 days'],
-      ['Canary Islands', 65.00, '5 days', true],
-      ['Croatia', 12.95, '5 to 6 days'],
-      ['Cyprus', 40.00, '8 to 10 days'],
-      ['Czech Republic', 10.33, '3 days'],
-      ['Denmark', 8.70, '4 to 5 days'],
-      ['Estonia', 13.00, '5 to 6 days'],
-      ['Finland', 14.82, '5 to 7 days'],
-      ['France', 9.30, '3 to 5 days'],
-      ['Germany', 7.50, '2 days'],
-      ['Greece', 17.78, '5 to 9 days'],
-      ['Hungary', 12.50, '3 to 4 days'],
-      ['Ireland', 12.50, '4 to 6 days'],
-      ['Italy', 9.60, '4 to 5 days'],
-      ['Latvia', 12.95, '4 to 6 days'],
-      ['Lithuania', 12.95, '4 to 6 days'],
-      ['Luxembourg', 10.11, '1 day'],
-      ['Malta', 18.33, '5 to 6 days'],
-      ['Netherlands', 6.40, '1 day'],
-      ['Norway', 39.95, '4 days', true],
-      ['Poland', 10.10, '4 to 5 days'],
-      ['Portugal', 12.62, '5 to 6 days'],
-      ['Romania', 16.99, '4 to 5 days'],
-      ['Serbia', 20.00, '3 to 5 days', true],
-      ['Slovakia', 11.70, '3 to 5 days'],
-      ['Slovenia', 11.95, '3 to 5 days'],
-      ['Spain (mainland)', 11.68, '3 to 5 days'],
-      ['Sweden', 13.87, '4 days'],
-      ['Switzerland', 38.00, '4 days', true]
+      ['Austria', 10.02, '3 to 4 days', false, 'AT'],
+      ['Balearic Islands', 99.73, '5 days', false, 'ES'],
+      ['Belgium', 6.45, '2 days', false, 'BE'],
+      ['Bulgaria', 13.00, '5 to 6 days', false, 'BG'],
+      ['Canary Islands', 65.00, '5 days', true, 'ES'],
+      ['Croatia', 12.95, '5 to 6 days', false, 'HR'],
+      ['Cyprus', 40.00, '8 to 10 days', false, 'CY'],
+      ['Czech Republic', 10.33, '3 days', false, 'CZ'],
+      ['Denmark', 8.70, '4 to 5 days', false, 'DK'],
+      ['Estonia', 13.00, '5 to 6 days', false, 'EE'],
+      ['Finland', 14.82, '5 to 7 days', false, 'FI'],
+      ['France', 9.30, '3 to 5 days', false, 'FR'],
+      ['Germany', 7.50, '2 days', false, 'DE'],
+      ['Greece', 17.78, '5 to 9 days', false, 'GR'],
+      ['Hungary', 12.50, '3 to 4 days', false, 'HU'],
+      ['Ireland', 12.50, '4 to 6 days', false, 'IE'],
+      ['Italy', 9.60, '4 to 5 days', false, 'IT'],
+      ['Latvia', 12.95, '4 to 6 days', false, 'LV'],
+      ['Lithuania', 12.95, '4 to 6 days', false, 'LT'],
+      ['Luxembourg', 10.11, '1 day', false, 'LU'],
+      ['Malta', 18.33, '5 to 6 days', false, 'MT'],
+      ['Netherlands', 6.40, '1 day', false, 'NL'],
+      ['Norway', 39.95, '4 days', true, 'NO'],
+      ['Poland', 10.10, '4 to 5 days', false, 'PL'],
+      ['Portugal', 12.62, '5 to 6 days', false, 'PT'],
+      ['Romania', 16.99, '4 to 5 days', false, 'RO'],
+      ['Serbia', 20.00, '3 to 5 days', true, 'RS'],
+      ['Slovakia', 11.70, '3 to 5 days', false, 'SK'],
+      ['Slovenia', 11.95, '3 to 5 days', false, 'SI'],
+      ['Spain (mainland)', 11.68, '3 to 5 days', false, 'ES'],
+      ['Sweden', 13.87, '4 days', false, 'SE'],
+      ['Switzerland', 38.00, '4 days', true, 'CH']
     ];
 
     /* =====================================================
@@ -841,8 +856,59 @@
     $('openCart').addEventListener('click', openCart);
     $('closeCart').addEventListener('click', closeCart);
     $('scrim').addEventListener('click', closeCart);
-    $('cartNote').textContent = 'Plain, discreet packaging. Delivery cost is added once you choose your country.';
-    $('checkoutBtn').addEventListener('click', () => alert('Online checkout is opening very soon. Follow us on Instagram @' + STORE.instagram + ' for launch news.'));
+    $('cartNote').textContent = 'Plain, discreet packaging. Delivery cost is added once you choose your country.' + ((SHOPIFY.domain && SHOPIFY.token) ? ' You will finish your order on our secure checkout page.' : '');
+    const shopifyReady = () => !!(SHOPIFY.domain && SHOPIFY.token);
+    async function startCheckout() {
+      const ids = Object.keys(cart).filter(bySlug);
+      if (!ids.length) return;
+      if (!shopifyReady()) {
+        alert('Online checkout is opening very soon. Follow us on Instagram @' + STORE.instagram + ' for launch news.');
+        return;
+      }
+      const btn = $('checkoutBtn');
+      btn.disabled = true; btn.textContent = 'One moment...';
+      const endpoint = 'https://' + SHOPIFY.domain + '/api/' + SHOPIFY.apiVersion + '/graphql.json';
+      const call = async (query, variables) => {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': SHOPIFY.token },
+          body: JSON.stringify({ query, variables })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        if (json.errors) throw new Error(JSON.stringify(json.errors));
+        return json.data;
+      };
+      try {
+        /* 1. find the Shopify product for each item in the cart (handle = slug) */
+        const q = 'query {' + ids.map((s, i) => ' p' + i + ': product(handle: "' + s + '") { variants(first: 1) { nodes { id availableForSale } } }').join('') + ' }';
+        const data = await call(q);
+        const lines = [];
+        ids.forEach((s, i) => {
+          const v = data['p' + i] && data['p' + i].variants.nodes[0];
+          if (!v) throw new Error('Not found in Shopify: ' + s);
+          if (!v.availableForSale) throw new Error('Unavailable: ' + bySlug(s).name);
+          lines.push({ merchandiseId: v.id, quantity: cart[s] });
+        });
+        /* 2. create the cart and send the customer to Shopify checkout */
+        const mutation = 'mutation($input: CartInput!) { cartCreate(input: $input) { cart { checkoutUrl } userErrors { message } } }';
+        const ship = shipFor(shipCountry);
+        let input = { lines };
+        if (ship && ship[4]) input.buyerIdentity = { countryCode: ship[4] };
+        let out = await call(mutation, { input });
+        if (!(out.cartCreate && out.cartCreate.cart) && input.buyerIdentity) {
+          out = await call(mutation, { input: { lines } });   /* try again without the country */
+        }
+        const cartOut = out.cartCreate && out.cartCreate.cart;
+        if (!cartOut || !cartOut.checkoutUrl) throw new Error('No checkout link returned');
+        window.location.href = cartOut.checkoutUrl;
+      } catch (err) {
+        console.error(err);
+        btn.disabled = false; btn.textContent = 'Checkout';
+        alert('Sorry, we could not start checkout just now. Please try again in a moment, or message us on Instagram @' + STORE.instagram + '.');
+      }
+    }
+    $('checkoutBtn').addEventListener('click', startCheckout);
 
     /* FAQ */
     const FAQS = [
@@ -894,7 +960,7 @@
       privacy: () => ({ title: 'Privacy policy', updated: true, html:
         '<p>Your privacy matters to us, especially in a business like ours. This policy explains what we collect, why, and what your rights are.</p>' +
         '<h3>What we collect</h3>' +
-        '<p>To process your order we collect your name, delivery address, email address, phone number and the details of what you ordered. Payments are handled by our payment provider, and we do not store your card details.</p>' +
+        '<p>To process your order we collect your name, delivery address, email address, phone number and the details of what you ordered. Payments are handled by our payment provider, and we do not store your card details.' + ((SHOPIFY.domain && SHOPIFY.token) ? ' Orders and payments are processed through Shopify.' : '') + '</p>' +
         '<h3>Why we collect it</h3>' +
         '<p>We use your information to take payment, deliver your order, answer your questions and meet our legal and tax duties.</p>' +
         '<h3>Who we share it with</h3>' +
