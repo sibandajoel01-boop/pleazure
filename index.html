@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0b0b">
   <title>PLEAZURE | Premium intimate wellness, delivered discreetly</title>
-  <meta name="description" content="PLEAZURE is a discreet online boutique for premium toys and intimate essentials. Plain packaging, delivered 1 to 3 days after you order. Adults only.">
+  <meta name="description" content="PLEAZURE is a discreet online boutique for premium toys and intimate essentials. Plain packaging, delivered across Europe. Adults only.">
   <meta property="og:title" content="PLEAZURE">
   <meta property="og:description" content="Where pleasure is not just a fantasy. Premium toys and intimate essentials, delivered discreetly.">
   <meta property="og:type" content="website">
@@ -192,6 +192,23 @@
     #noResults .req-lead { margin-bottom: 18px; }
     @media (max-width: 700px) { .request { margin: 10px 12px 0; padding: 30px 18px; } .req-btn { width: 100%; } }
 
+    /* DELIVERY PICKER */
+    .ship-box { margin-bottom: 14px; }
+    .ship-box label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: #86868b; margin-bottom: 6px; }
+    .ship-select {
+      width: 100%; height: 46px; background: #1c1c1f; color: #fff; border: 1px solid rgba(255,255,255,.2);
+      border-radius: 12px; padding: 0 12px; font-size: 16px; font-family: inherit;
+    }
+    .ship-result { font-size: .8rem; color: #a1a1a6; line-height: 1.5; margin-top: 8px; }
+    .sum-row { display: flex; justify-content: space-between; font-size: .88rem; color: #a1a1a6; margin-bottom: 6px; }
+    .faq .ship-box { padding: 0 18px 18px; }
+    .info-content .ship-box { margin: 12px 0 16px; }
+    .ship-all { margin: 8px 0 14px; }
+    .ship-all summary { cursor: pointer; font-size: .88rem; color: #fff; padding: 6px 0; }
+    .ship-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: .8rem; }
+    .ship-table th { text-align: left; color: #86868b; font-weight: 500; padding: 6px 4px; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .ship-table td { padding: 6px 4px; color: #d1d1d6; border-bottom: 1px solid rgba(255,255,255,.06); }
+
     /* FAQ */
     .faq { max-width: 780px; margin: 0 auto; padding: 40px 20px 20px; }
     .faq h2 { font-size: clamp(1.2rem, 4vw, 1.7rem); font-weight: 300; letter-spacing: .12em; text-transform: uppercase; text-align: center; margin-bottom: 8px; }
@@ -292,7 +309,7 @@
   <nav>
     <a href="#" class="brand-logo">PLEAZURE</a>
     <div class="nav-right">
-      <span class="ship-note">Plain packaging, delivered in 1 to 3 days</span>
+      <span class="ship-note">Plain packaging, delivered across Europe</span>
       <a href="#faq" class="nav-link">FAQ</a>
       <button class="cart-btn" id="openCart" aria-label="Open cart">Cart <span class="cart-count" id="cartCount">0</span></button>
     </div>
@@ -301,10 +318,10 @@
   <section class="hero">
     <div class="eyebrow">PLEAZURE.ONLINE</div>
     <h1>Where pleasure is not just a fantasy</h1>
-    <p>Premium toys and intimate essentials, chosen with care and delivered discreetly, 1 to 3 days after you order.</p>
+    <p>Premium toys and intimate essentials, chosen with care and delivered discreetly across Europe, from as little as 24 hours.</p>
     <div class="trust-bar">
       <span>✦ Plain, discreet packaging</span>
-      <span>✦ Delivered in 1 to 3 days</span>
+      <span>✦ Delivered across Europe, from 24 hours</span>
       <span>✦ Adults only, 18+</span>
     </div>
   </section>
@@ -339,7 +356,7 @@
     <div class="foot-inner">
       <div>
         <div class="foot-brand">PLEAZURE</div>
-        <p class="foot-text">A discreet online boutique for modern intimate wellness. Plain packaging, delivered 1 to 3 days after you order.</p>
+        <p class="foot-text">A discreet online boutique for modern intimate wellness. Plain packaging, delivered across Europe.</p>
       </div>
       <div class="foot-col">
         <h4>Help</h4>
@@ -396,6 +413,13 @@
     <div class="d-head"><h2>Your Cart</h2><button class="d-close" id="closeCart" aria-label="Close cart">✕</button></div>
     <div id="cartItems"></div>
     <div class="d-foot">
+      <div class="ship-box">
+        <label for="shipCountry">Deliver to</label>
+        <select class="ship-select" id="shipCountry" aria-label="Choose your country"></select>
+        <div class="ship-result"></div>
+      </div>
+      <div class="sum-row"><span>Subtotal</span><span id="cartSub">€0.00</span></div>
+      <div class="sum-row"><span>Delivery</span><span id="cartShip"></span></div>
       <div class="total"><span>Total</span><span id="cartTotal">€0.00</span></div>
       <p class="note" id="cartNote"></p>
       <button class="buy-btn" id="checkoutBtn">Checkout</button>
@@ -433,7 +457,44 @@
       vatNumber: '',      // your VAT number
       country: ''         // country where your business is registered
     };
-    const DELIVERY = '1 to 3 days';
+    /* =====================================================
+       DELIVERY PRICES AND TIMES, by country.
+       ['Country', cost in euros, 'estimated delivery time', true if import VAT or customs may apply]
+       ===================================================== */
+    const SHIPPING = [
+      ['Austria', 10.02, '3 to 4 days'],
+      ['Balearic Islands', 99.73, '5 days'],
+      ['Belgium', 6.45, '2 days'],
+      ['Bulgaria', 13.00, '5 to 6 days'],
+      ['Canary Islands', 65.00, '5 days', true],
+      ['Croatia', 12.95, '5 to 6 days'],
+      ['Cyprus', 40.00, '8 to 10 days'],
+      ['Czech Republic', 10.33, '3 days'],
+      ['Denmark', 8.70, '4 to 5 days'],
+      ['Estonia', 13.00, '5 to 6 days'],
+      ['Finland', 14.82, '5 to 7 days'],
+      ['France', 9.30, '3 to 5 days'],
+      ['Germany', 7.50, '2 days'],
+      ['Greece', 17.78, '5 to 9 days'],
+      ['Hungary', 12.50, '3 to 4 days'],
+      ['Ireland', 12.50, '4 to 6 days'],
+      ['Italy', 9.60, '4 to 5 days'],
+      ['Latvia', 12.95, '4 to 6 days'],
+      ['Lithuania', 12.95, '4 to 6 days'],
+      ['Luxembourg', 10.11, '1 day'],
+      ['Malta', 18.33, '5 to 6 days'],
+      ['Netherlands', 6.40, '1 day'],
+      ['Norway', 39.95, '4 days', true],
+      ['Poland', 10.10, '4 to 5 days'],
+      ['Portugal', 12.62, '5 to 6 days'],
+      ['Romania', 16.99, '4 to 5 days'],
+      ['Serbia', 20.00, '3 to 5 days', true],
+      ['Slovakia', 11.70, '3 to 5 days'],
+      ['Slovenia', 11.95, '3 to 5 days'],
+      ['Spain (mainland)', 11.68, '3 to 5 days'],
+      ['Sweden', 13.87, '4 days'],
+      ['Switzerland', 38.00, '4 days', true]
+    ];
 
     /* =====================================================
        PRODUCT LIST - the ONLY place to edit.
@@ -696,7 +757,7 @@
       $('mPrice').textContent = money(p.price);
       $('mDesc').textContent = p.desc;
       $('mSpecs').innerHTML = p.specs.map(s => '<li>✓ ' + esc(s) + '</li>').join('');
-      $('mNote').textContent = 'Plain, discreet packaging. Delivered ' + DELIVERY + ' after you order.';
+      $('mNote').textContent = 'Plain, discreet packaging. Delivery cost and time depend on your country, shown in your cart.';
       modal.classList.add('active');
       updateLock();
     }
@@ -704,6 +765,36 @@
     $('modalClose').addEventListener('click', closeModal);
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     $('mAdd').addEventListener('click', () => { addToCart(products[current].slug); closeModal(); });
+
+    /* Delivery picker: country, cost and estimated time */
+    const SHIP_WIDGET = '<div class="ship-box"><select class="ship-select" aria-label="Choose your country"></select><div class="ship-result"></div></div>';
+    const shipFor = name => SHIPPING.find(r => r[0] === name);
+    let shipCountry = '';
+    try { shipCountry = localStorage.getItem('pleazure_country') || ''; } catch (e) {}
+    if (!shipFor(shipCountry)) shipCountry = '';
+    const shipOptions = () => '<option value="">Select your country</option>' +
+      SHIPPING.map(r => '<option value="' + esc(r[0]) + '">' + esc(r[0]) + '</option>').join('');
+    function shipText() {
+      const r = shipFor(shipCountry);
+      if (!r) return 'Choose your country to see the delivery cost and estimated time.';
+      return 'Delivery to ' + r[0] + ': ' + money(r[1]) + ', estimated ' + r[2] + '.' +
+        (r[3] ? ' Import VAT or customs fees may apply in your country.' : '');
+    }
+    function refreshShip() {
+      document.querySelectorAll('.ship-select').forEach(sel => {
+        if (!sel.options.length) sel.innerHTML = shipOptions();
+        sel.value = shipCountry;
+      });
+      document.querySelectorAll('.ship-result').forEach(el => { el.textContent = shipText(); });
+    }
+    const shipTable = () => '<table class="ship-table"><tr><th>Country</th><th>Cost</th><th>Estimated time</th></tr>' +
+      SHIPPING.map(r => '<tr><td>' + esc(r[0]) + '</td><td>' + money(r[1]) + '</td><td>' + esc(r[2]) + '</td></tr>').join('') + '</table>';
+    document.addEventListener('change', e => {
+      if (!e.target.classList.contains('ship-select')) return;
+      shipCountry = e.target.value;
+      try { localStorage.setItem('pleazure_country', shipCountry); } catch (err) {}
+      refreshShip(); renderCart();
+    });
 
     /* Cart (stored by product slug, so it survives product list changes) */
     let cart = {};
@@ -722,10 +813,14 @@
     function renderCart() {
       const ids = Object.keys(cart).filter(bySlug);
       const count = ids.reduce((n, s) => n + cart[s], 0);
-      const total = ids.reduce((n, s) => n + cart[s] * bySlug(s).price, 0);
+      const sub = ids.reduce((n, s) => n + cart[s] * bySlug(s).price, 0);
+      const ship = count ? shipFor(shipCountry) : null;
       $('cartCount').textContent = count;
-      $('cartTotal').textContent = money(total);
-      $('checkoutBtn').disabled = !count;
+      $('cartSub').textContent = money(sub);
+      $('cartShip').textContent = !count ? '' : (ship ? money(ship[1]) : 'Choose your country');
+      $('cartTotal').textContent = money(sub + (ship ? ship[1] : 0));
+      $('checkoutBtn').disabled = !count || !ship;
+      $('checkoutBtn').textContent = count && !ship ? 'Choose your country first' : 'Checkout';
       $('cartItems').innerHTML = ids.length ? ids.map(s => {
         const p = bySlug(s);
         return '<div class="c-item"><div class="c-img"><img src="' + imgUrl(p.images[0]) + '" alt=""></div>' +
@@ -746,15 +841,15 @@
     $('openCart').addEventListener('click', openCart);
     $('closeCart').addEventListener('click', closeCart);
     $('scrim').addEventListener('click', closeCart);
-    $('cartNote').textContent = 'Plain, discreet packaging. Delivered ' + DELIVERY + ' after you order. Shipping is calculated at checkout.';
+    $('cartNote').textContent = 'Plain, discreet packaging. Delivery cost is added once you choose your country.';
     $('checkoutBtn').addEventListener('click', () => alert('Online checkout is opening very soon. Follow us on Instagram @' + STORE.instagram + ' for launch news.'));
 
     /* FAQ */
     const FAQS = [
       ['Is my order discreet?',
         'Yes. Every order is sent in plain outer packaging with no mention of the contents on the outside.'],
-      ['How long does delivery take?',
-        'Orders are delivered ' + DELIVERY + ' after you place them. Delivery costs are shown at checkout, before you pay.'],
+      ['How long does delivery take, and what does it cost?',
+        'It depends on your country. Delivery takes from 1 day to about 10 days, and costs start from ' + money(Math.min(...SHIPPING.map(r => r[1]))) + '. Choose your country below to see the exact cost and estimated delivery time.', true],
       ['Do I need to be 18 or over?',
         'Yes. You must be at least 18 years old to browse this site and to buy from it.'],
       ['Can I return an item?',
@@ -772,7 +867,8 @@
       ['How do I contact you?',
         'Message us on Instagram @' + STORE.instagram + (STORE.email ? ' or email ' + STORE.email : '') + '. We are happy to help with questions about products or your order.']
     ];
-    $('faqList').innerHTML = FAQS.map(([q, a]) => '<details><summary>' + esc(q) + '</summary><p>' + esc(a) + '</p></details>').join('');
+    $('faqList').innerHTML = FAQS.map(([q, a, w]) => '<details><summary>' + esc(q) + '</summary><p>' + esc(a) + '</p>' + (w ? SHIP_WIDGET : '') + '</details>').join('');
+    refreshShip();
 
     /* Info panels */
     const contactHtml = () => '<p>Message us on Instagram <a href="https://www.instagram.com/' + esc(STORE.instagram) + '/" target="_blank" rel="noopener">@' + esc(STORE.instagram) + '</a>' +
@@ -784,8 +880,11 @@
     const PAGES = {
       delivery: () => ({ title: 'Delivery and returns', updated: true, html:
         '<h3>Delivery</h3>' +
-        '<p>Orders are delivered ' + DELIVERY + ' after you place them. Every parcel is sent in plain outer packaging with no mention of the contents.</p>' +
-        '<p>Delivery costs are shown at checkout, before you pay.</p>' +
+        '<p>Every parcel is sent in plain outer packaging with no mention of the contents.</p>' +
+        '<p>Delivery cost and estimated delivery time depend on your country. Choose yours below. You will also see the delivery cost in your cart before you pay.</p>' +
+        SHIP_WIDGET +
+        '<details class="ship-all"><summary>See all countries</summary>' + shipTable() + '</details>' +
+        '<p>Delivery times are estimates and can vary.</p>' +
         '<h3>Cancelling and returning an order</h3>' +
         '<p>You can cancel your order within 14 days of receiving it, as set out in EU consumer law. Please contact us to let us know.</p>' +
         '<p>For hygiene reasons, items that have been unsealed or used cannot be returned. Please keep the seal on until you are ready to use the item.</p>' +
@@ -815,7 +914,7 @@
         '<h3>Orders and prices</h3>' +
         '<p>Prices are shown in euros and include VAT where applicable. If a product is unavailable or a price was shown in error, we may cancel the order and will refund you in full.</p>' +
         '<h3>Delivery</h3>' +
-        '<p>Orders are delivered ' + DELIVERY + ' after you place them. Delivery costs are shown at checkout.</p>' +
+        '<p>Delivery costs and estimated delivery times depend on your country and are shown in your cart before you pay. See Delivery and returns for the full list.</p>' +
         '<h3>Cancelling and returns</h3>' +
         '<p>You may cancel within 14 days of receiving your order. For hygiene reasons, unsealed or used items cannot be returned. See Delivery and returns for more.</p>' +
         '<h3>Faulty items</h3>' +
@@ -828,7 +927,7 @@
       about: () => ({ title: 'About PLEAZURE', updated: false, html:
         '<p>PLEAZURE is a discreet online boutique for modern intimate wellness.</p>' +
         '<p>We keep our range focused, with trusted brands including LELO, Loving Joy and Mina, so choosing something you will love feels easy and unhurried.</p>' +
-        '<p>Every order is sent in plain packaging and delivered ' + DELIVERY + ' after you place it. We believe pleasure is part of wellbeing, and that buying for it should feel calm, private and respectful.</p>' +
+        '<p>Every order is sent in plain packaging and delivered across Europe, from 24 hours depending on your country. We believe pleasure is part of wellbeing, and that buying for it should feel calm, private and respectful.</p>' +
         '<p>Follow us on Instagram <a href="https://www.instagram.com/' + esc(STORE.instagram) + '/" target="_blank" rel="noopener">@' + esc(STORE.instagram) + '</a> for new arrivals.</p>' }),
       contact: () => ({ title: 'Contact us', updated: false, html:
         '<p>We are happy to help with product questions, your order or anything else.</p>' + contactHtml() +
@@ -840,6 +939,7 @@
       $('infoTitle').textContent = d.title;
       $('infoUpdated').textContent = d.updated ? 'Last updated October 2026' : '';
       $('infoBody').innerHTML = d.html;
+      refreshShip();
       $('infoModal').classList.add('active');
       $('infoModal').querySelector('.info-content').scrollTop = 0;
       updateLock();
@@ -878,6 +978,7 @@
       clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 1600);
     }
 
+    refreshShip();
     renderCart();
   </script>
 </body>
